@@ -16,13 +16,26 @@ public class ShoppingCart {
   }
 
   public void addItem(String articleId, int amount) {
-    // TODO Auto-generated method stub
+    // keep only one item, but increase amount accordingly
+    Item existingItem = removeItem(articleId);
+    if (existingItem!=null) {
+      amount += existingItem.getAmount();
+    }
     
+    Item item = new Item();
+    item.setAmount(amount);
+    item.setArticleId(articleId);
+    items.add(item);    
   }
 
-  public void removeItem(String articleId) {
-    // TODO Auto-generated method stub
-    
+  public Item removeItem(String articleId) {
+    for (Item item : items) {
+      if (articleId.equals(item.getArticleId())) {
+        items.remove(item);
+        return item;
+      }
+    }
+    return null;
   }
   
 }

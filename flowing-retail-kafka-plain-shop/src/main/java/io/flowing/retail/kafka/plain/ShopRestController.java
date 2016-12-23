@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 @RestController
-public class ShopController {
+public class ShopRestController {
   
   @Autowired
   private KafkaEventProducer eventProducer;
@@ -24,8 +25,13 @@ public class ShopController {
   @RequestMapping(path = "/api/cart/order", method = PUT)
   public String placeOrder(@RequestParam(value = "customerId") String customerId, HttpSession httpSession) {
 
+    ShoppingCart cart = getShoppingCart(httpSession);
+    
+    cart.addItem("article1", 5);
+    cart.addItem("article2", 10);
+    
     String correlationId = UUID.randomUUID().toString();    
-    eventProducer.publishOrderPlacedEvent(correlationId, customerId, getShoppingCart(httpSession));    
+    eventProducer.publishOrderPlacedEvent(correlationId, customerId, cart);    
     httpSession.removeAttribute("cart");
     
     // note that we cannot easily return an order id here - as everything is asynchronous

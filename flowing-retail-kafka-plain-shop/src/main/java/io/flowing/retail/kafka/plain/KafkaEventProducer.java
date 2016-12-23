@@ -37,11 +37,18 @@ public class KafkaEventProducer {
   private String transformToJson(String correlationId, String customerId, ShoppingCart shoppingCart) {
     JsonArrayBuilder itemsArrayBuilder = Json.createArrayBuilder();
     for (Item item : shoppingCart.getItems()) {
-      itemsArrayBuilder.add(Json.createObjectBuilder().add("articleId", item.getArticleId()).add("amount", item.getAmount()));
+      itemsArrayBuilder.add(Json.createObjectBuilder() //
+          .add("articleId", item.getArticleId())
+          .add("amount", item.getAmount()));
     }
 
-    JsonObject event = Json.createObjectBuilder().add("type", "event").add("name", "OrderPlacedEvent").add("correlationId", correlationId)
-        .add("order", Json.createObjectBuilder().add("customerId", customerId).add("items", itemsArrayBuilder)).build();
+    JsonObject event = Json.createObjectBuilder() //
+        .add("type", "event")//
+        .add("name", "OrderPlacedEvent") //
+        .add("correlationId", correlationId) //
+        .add("order", Json.createObjectBuilder() //
+            .add("customerId", customerId) //
+            .add("items", itemsArrayBuilder)).build();
 
     StringWriter eventStringWriter = new StringWriter();
     JsonWriter writer = Json.createWriter(eventStringWriter);

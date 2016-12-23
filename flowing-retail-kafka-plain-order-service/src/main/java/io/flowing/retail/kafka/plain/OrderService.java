@@ -3,8 +3,10 @@ package io.flowing.retail.kafka.plain;
 import java.util.List;
 
 public interface OrderService {
-  
-  public void placeOrder(Order order);
+
+  public static OrderService instance = new OrderServiceImpl();
+
+  public void processOrder(Order order);
   
   /**
    * get the order for the specified orderId
