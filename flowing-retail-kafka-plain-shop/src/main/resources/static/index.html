@@ -1,0 +1,26 @@
+<html>
+<sci
+
+<body>
+	<button onclick="placeOrder()">Place order</button>
+</body>
+
+	<script type="text/javascript">
+
+		function placeOrder() {
+			 $.ajax({
+              url: "./api/cart/order?customerId=123",
+              type: "put",
+              cache : false,
+              contentType: false,
+              processType : false,
+              processData : false,
+              data: {}
+          }).done(function(result) {
+            console.log(result);
+          })
+		}
+	</script>
+  <script src="./jquery.min.js"></script>
+
+</html>
