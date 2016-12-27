@@ -1,4 +1,4 @@
-package io.flowing.retail.kafka.plain;
+package io.flowing.retail.commands;
 
 import java.util.ArrayList;
 import java.util.List;

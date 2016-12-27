@@ -1,21 +1,21 @@
-package io.flowing.retail.kafka.plain;
+package io.flowing.retail.command;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-public class ShopRestController {
+public class RestShopController {
   
-  @Autowired
-  private KafkaEventProducer eventProducer;
+  private EventProducer eventProducer = new EventProducer();
 
   @RequestMapping(path = "/api/cart", method = GET)
   public ShoppingCart getCart(HttpSession httpSession) {
@@ -30,7 +30,7 @@ public class ShopRestController {
     cart.addItem("article1", 5);
     cart.addItem("article2", 10);
     
-    String correlationId = UUID.randomUUID().toString();    
+    String correlationId = UUID.randomUUID().toString();   
     eventProducer.publishOrderPlacedEvent(correlationId, customerId, cart);    
     httpSession.removeAttribute("cart");
     

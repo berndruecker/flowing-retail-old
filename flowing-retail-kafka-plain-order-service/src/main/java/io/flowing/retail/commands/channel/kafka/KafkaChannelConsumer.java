@@ -1,4 +1,5 @@
-package io.flowing.retail.kafka.plain;
+package io.flowing.retail.commands.channel.kafka;
+
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -8,34 +9,32 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 
-public class OrderApplication {
+import io.flowing.retail.commands.EventConsumer;
+import io.flowing.retail.commands.channel.ChannelConsumer;
+
+public class KafkaChannelConsumer extends ChannelConsumer {
 
   public static String topicName = "flowing-retail";
   public static String groupId = "group1";
   public static final Object clientId = "OrderService";
+  private KafkaConsumerThread consumerRunnable;
 
-  public static void main(String[] args) throws Exception {
-
-    final ConsumerThread consumerRunnable = new ConsumerThread();
+  protected void connect() throws Exception {
+    consumerRunnable = new KafkaConsumerThread();
     consumerRunnable.start();
-
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-
-        consumerRunnable.getKafkaConsumer().wakeup();
-        System.out.println("Stopping consumer .....");
-        try {
-          consumerRunnable.join();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
-    });
-
   }
 
-  private static class ConsumerThread extends Thread {
+  protected void disconnect() throws Exception {
+    consumerRunnable.getKafkaConsumer().wakeup();
+    try {
+      consumerRunnable.join();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+    
+  private static class KafkaConsumerThread extends Thread {
+
     private KafkaConsumer<String, String> kafkaConsumer;
 
     public void run() {
@@ -47,7 +46,7 @@ public class OrderApplication {
       configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
 
       EventConsumer eventConsumer = new EventConsumer();
-      
+
       // Figure out where to start processing messages from
       kafkaConsumer = new KafkaConsumer<String, String>(configProperties);
       kafkaConsumer.subscribe(Arrays.asList(topicName));
@@ -57,8 +56,9 @@ public class OrderApplication {
       try {
         while (true) {
           ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
-          for (ConsumerRecord<String, String> record : records)
+          for (ConsumerRecord<String, String> record : records) {
             eventConsumer.handleEvent(record.value());
+          }
         }
       } catch (WakeupException ex) {
         System.out.println("Exception caught " + ex.getMessage());
@@ -72,5 +72,4 @@ public class OrderApplication {
       return this.kafkaConsumer;
     }
   }
-
 }

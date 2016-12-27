@@ -14,6 +14,30 @@
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
+	
+	<!-- 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<configuration>
+					<programs>
+						<program>
+							<mainClass>io.flowing.retail.commands.OrderApplication</mainClass>
+							<name>flowing retail example - order service</name>
+						</program>
+					</programs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	 -->
 </project>
