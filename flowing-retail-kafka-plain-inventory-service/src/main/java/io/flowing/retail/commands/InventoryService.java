@@ -1,21 +1,25 @@
-package io.flowing.retail.kafka.plain;
+package io.flowing.retail.commands;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public interface InventoryService {
+import io.flowing.retail.commands.impl.InventoryServiceImpl;
+
+public abstract class InventoryService {
+  
+  public static InventoryService instance = new InventoryServiceImpl();
   
   /**
    * reserve goods on stock for a defined period of time
    * 
-   * @param articleId The article to be reserved
-   * @param amount  
    * @param reason A reason why the goods are reserved (e.g. "customer order")
    * @param refId A reference id fitting to the reason of reservation (e.g. the order id), needed to find reservation again later
    * @param expirationDate Date until when the goods are reserved, afterwards the reservation is removed
-   * @return 
+   * @return if reservation could be done successfully
    */
-  public void reserveGoods(String articleId, int amount, String reason, String refId, Date expirationDate);
+  public abstract boolean reserveGoods(List<Item> items, String reason, String refId, LocalDateTime expirationDate);
 
   /**
    * Order to pick the given items in the warehouse. The inventory is decreased. 
@@ -30,10 +34,11 @@ public interface InventoryService {
    * @param refId Reference id fitting to the reason of the pick (e.g. "order id"). Used to determine which reservations can be used.
    * @return a unique pick ID 
    */
-  public String pickItems(List<ConsignmentItem> items, String reason, String refId);
+  public abstract String pickItems(List<Item> items, String reason, String refId);
 
   /**
    * New goods are arrived and inventory is increased
    */
-  public void topUpInventory(String articleId, int amount);
+  public abstract void topUpInventory(String articleId, int amount);
+
 }

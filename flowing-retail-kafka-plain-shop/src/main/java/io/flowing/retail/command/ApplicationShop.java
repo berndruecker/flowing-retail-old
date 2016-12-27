@@ -12,8 +12,8 @@ public class ApplicationShop {
 
   public static void main(String[] args) {
     // Set Channel
-    ChannelSender.startup(new RabbitMqSender());
-    //ChannelSender.startup(new KafkaSender());
+//    ChannelSender.startup(new RabbitMqSender());
+    ChannelSender.startup(new KafkaSender());
     
     // and startup spring boot for Tomcat + REST
     SpringApplication.run(ApplicationShop.class, args);

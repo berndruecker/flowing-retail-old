@@ -11,16 +11,12 @@ import io.flowing.retail.command.channel.ChannelSender;
 
 public class EventProducer {
   
-  public void publishOrderPlacedEvent(String correlationId, String customerId, ShoppingCart shoppingCart) {
-    String eventString = transformToJson(correlationId, customerId, shoppingCart);
-    try {
-      ChannelSender.instance.send(eventString);
-    } catch (Exception e) {
-      throw new RuntimeException("Could not send event: " + e.getMessage(), e);
-    }
+  public void publishEventOrderPlaced(String correlationId, String customerId, ShoppingCart shoppingCart) {
+    String eventString = createEventJson(correlationId, customerId, shoppingCart);
+    ChannelSender.instance.send(eventString);
   }
   
-  public String transformToJson(String correlationId, String customerId, ShoppingCart shoppingCart) {
+  public String createEventJson(String correlationId, String customerId, ShoppingCart shoppingCart) {
     JsonArrayBuilder itemsArrayBuilder = Json.createArrayBuilder();
     for (Item item : shoppingCart.getItems()) {
       itemsArrayBuilder.add(Json.createObjectBuilder() //
@@ -28,7 +24,7 @@ public class EventProducer {
     }
 
     JsonObject event = Json.createObjectBuilder() //
-        .add("type", "event")//
+        .add("type", "Event")//
         .add("name", "OrderPlacedEvent") //
         .add("correlationId", correlationId) //
         .add("order",

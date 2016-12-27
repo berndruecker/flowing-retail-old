@@ -31,7 +31,7 @@ public class RestShopController {
     cart.addItem("article2", 10);
     
     String correlationId = UUID.randomUUID().toString();   
-    eventProducer.publishOrderPlacedEvent(correlationId, customerId, cart);    
+    eventProducer.publishEventOrderPlaced(correlationId, customerId, cart);    
     httpSession.removeAttribute("cart");
     
     // note that we cannot easily return an order id here - as everything is asynchronous

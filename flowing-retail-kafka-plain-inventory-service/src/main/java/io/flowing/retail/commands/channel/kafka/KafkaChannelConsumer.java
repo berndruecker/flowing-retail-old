@@ -15,7 +15,7 @@ import io.flowing.retail.commands.channel.ChannelConsumer;
 public class KafkaChannelConsumer extends ChannelConsumer {
 
   public static String topicName = "flowing-retail";
-  public static String groupId = "orderService";
+  public static String groupId = "inventoryService";
   public static final Object clientId = "OrderService";
   private KafkaConsumerThread consumerRunnable;
 
@@ -42,8 +42,6 @@ public class KafkaChannelConsumer extends ChannelConsumer {
       configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
       configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-      // could be set to always restart from earliest messages
-      //      configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "smallest");
       configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
       configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
 

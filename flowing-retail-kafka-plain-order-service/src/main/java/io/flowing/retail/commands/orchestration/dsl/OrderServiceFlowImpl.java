@@ -1,5 +1,6 @@
 package io.flowing.retail.commands.orchestration.dsl;
 
+import java.util.Collection;
 import java.util.List;
 
 import io.flowing.retail.commands.Order;
@@ -61,15 +62,28 @@ public class OrderServiceFlowImpl extends OrderService{
     
   }
 
+  @Override
+  public void processGoodsReservation(String orderId) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void processPaymentReceived(String orderId) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
   public Order getOrder(String orderId) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public List<Order> findOrders() {
+  @Override
+  public Collection<? extends Order> findOrders() {
     // TODO Auto-generated method stub
     return null;
   }
-  
-  
+
 }

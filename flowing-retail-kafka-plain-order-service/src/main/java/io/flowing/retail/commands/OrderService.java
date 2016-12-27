@@ -1,12 +1,14 @@
 package io.flowing.retail.commands;
 
-import java.util.List;
+import java.util.Collection;
 
 public abstract class OrderService {
 
   public static OrderService instance;
 
   public abstract void processOrder(Order order);
+  public abstract void processGoodsReservation(String orderId);
+  public abstract void processPaymentReceived(String orderId);    
   
   /**
    * get the order for the specified orderId
@@ -18,6 +20,6 @@ public abstract class OrderService {
    * 
    * @return all stored orders
    */
-  public abstract List<Order> findOrders();
+  public abstract Collection<? extends Order> findOrders();
   
 }

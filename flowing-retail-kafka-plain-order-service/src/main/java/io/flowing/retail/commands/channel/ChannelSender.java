@@ -1,4 +1,4 @@
-package io.flowing.retail.command.channel;
+package io.flowing.retail.commands.channel;
 
 public abstract class ChannelSender {
 
