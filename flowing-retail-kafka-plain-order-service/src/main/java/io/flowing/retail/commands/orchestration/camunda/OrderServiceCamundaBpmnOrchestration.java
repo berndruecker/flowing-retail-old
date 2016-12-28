@@ -8,7 +8,7 @@ import io.flowing.retail.commands.OrderService;
 public class OrderServiceCamundaBpmnOrchestration extends OrderService{
 
   @Override
-  public void processOrder(Order order) {
+  public void processOrder(String correlationId, Order order) {
     // TODO Auto-generated method stub
     
   }

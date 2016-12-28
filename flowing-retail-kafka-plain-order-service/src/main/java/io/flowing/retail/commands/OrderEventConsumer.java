@@ -13,7 +13,7 @@ public class OrderEventConsumer extends EventConsumer {
       String correlationId = event.getString("correlationId");
       Order order = parseOrder(event.getJsonObject("order"));
 
-      OrderService.instance.processOrder(order);
+      OrderService.instance.processOrder(correlationId, order);
     } else if ("Event".equals(type) && "GoodsReserved".equals(name)) {
       String reason = event.getString("reason");
       if ("CustomerOrder".equals(reason)) {

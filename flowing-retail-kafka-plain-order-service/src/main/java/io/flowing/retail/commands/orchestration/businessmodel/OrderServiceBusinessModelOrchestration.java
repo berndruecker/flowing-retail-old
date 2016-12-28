@@ -15,12 +15,14 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
   private HashMap<String, ExtendedOrder> orderStorage = new HashMap<String, ExtendedOrder>();
   
   // TODO: This class mixes issues (Persistence and Event Handling)
-  public void processOrder(Order order) {
+  public void processOrder(String correlationId, Order order) {
     ExtendedOrder extendedOrder = new ExtendedOrder(order);
     System.out.println("order will be processed: " + extendedOrder);
     
     // "Persist" order
     orderStorage.put(order.getId(), extendedOrder);
+
+    eventProducer.publishEventOrderCreated(correlationId, order);
     
     // issue ReserveGoodsCommand  
     eventProducer.publishCommandReserveGoods(order);

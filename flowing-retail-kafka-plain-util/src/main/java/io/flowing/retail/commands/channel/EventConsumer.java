@@ -1,10 +1,13 @@
 package io.flowing.retail.commands.channel;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.json.JsonWriter;
 
 public abstract class EventConsumer {
 
@@ -30,5 +33,14 @@ public abstract class EventConsumer {
   }
 
   public abstract boolean handleEvent(String type, String name, JsonObject event);
+
+  public String asString(JsonObject jsonObject) {
+    StringWriter eventStringWriter = new StringWriter();
+    JsonWriter writer = Json.createWriter(eventStringWriter);
+    writer.writeObject(jsonObject);
+    writer.close();
+
+    return eventStringWriter.toString();
+  }
 
 }

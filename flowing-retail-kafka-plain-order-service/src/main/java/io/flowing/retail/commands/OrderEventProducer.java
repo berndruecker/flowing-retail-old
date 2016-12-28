@@ -11,6 +11,15 @@ import io.flowing.retail.commands.channel.EventProducer;
 
 public class OrderEventProducer extends EventProducer {
 
+  public void publishEventOrderCreated(String correlationId, Order order) {
+    JsonObjectBuilder json = createPayloadJson("Command", "ReserveGoods");
+    json //
+        .add("correlationId", correlationId) //
+        .add("orderId", order.getId()) //
+        .add("items", createJsonItemArray(order));
+    send(json);
+  }
+  
   public void publishCommandReserveGoods(Order order) {
     JsonObjectBuilder json = createPayloadJson("Command", "ReserveGoods");
     json //
@@ -66,5 +75,7 @@ public class OrderEventProducer extends EventProducer {
     }
     return itemsArrayBuilder;
   }
+
+  
 
 }

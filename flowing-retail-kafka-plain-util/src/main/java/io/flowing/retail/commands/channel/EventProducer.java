@@ -31,7 +31,7 @@ public abstract class EventProducer {
         .add("name", name);
   }
 
-  private String asString(JsonObjectBuilder builder) {
+  public String asString(JsonObjectBuilder builder) {
     JsonObject jsonObject = builder.build();
 
     StringWriter eventStringWriter = new StringWriter();

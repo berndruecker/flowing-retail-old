@@ -7,7 +7,7 @@ import io.flowing.retail.commands.OrderService;
 
 public class OrderServiceFlowImpl extends OrderService{
 
-  public void processOrder(Order order) {
+  public void processOrder(String correlationId, Order order) {
     System.out.println("order will be processed: " + order);
     
     Object payload = null;

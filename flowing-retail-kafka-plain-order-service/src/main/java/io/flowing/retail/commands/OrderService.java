@@ -6,7 +6,7 @@ public abstract class OrderService {
 
   public static OrderService instance;
 
-  public abstract void processOrder(Order order);
+  public abstract void processOrder(String correlationId, Order order);
   public abstract void processGoodsReservation(String orderId);
   public abstract void processPaymentReceived(String orderId);    
   public abstract void processGoodsPicked(String orderId, String pickId);
