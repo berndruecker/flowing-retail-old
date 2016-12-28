@@ -6,46 +6,15 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
+			<groupId>io.flowing.retail.kafka.plain</groupId>
+			<artifactId>flowing-retail-kafka-plain-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- Channel: Kafka -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>0.10.1.0</version>
-		</dependency>
-
-		<!-- Channel AQMP (via RabbitMQ) -->
-		<dependency>
-			<groupId>com.rabbitmq</groupId>
-			<artifactId>amqp-client</artifactId>
-			<version>4.0.0</version>
-		</dependency>		
 	</dependencies>
-	
-	<!-- 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<configuration>
-					<programs>
-						<program>
-							<mainClass>io.flowing.retail.commands.OrderApplication</mainClass>
-							<name>flowing retail example - order service</name>
-						</program>
-					</programs>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	 -->
+
+	<!-- <build> <plugins> <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>appassembler-maven-plugin</artifactId> 
+		<configuration> <programs> <program> <mainClass>io.flowing.retail.commands.OrderApplication</mainClass> 
+		<name>flowing retail example - order service</name> </program> </programs> 
+		</configuration> <executions> <execution> <phase>package</phase> </execution> 
+		</executions> </plugin> </plugins> </build> -->
 </project>

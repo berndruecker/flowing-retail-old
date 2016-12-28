@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import io.flowing.retail.commands.EventProducer;
+import io.flowing.retail.commands.OrderEventProducer;
 import io.flowing.retail.commands.Order;
 import io.flowing.retail.commands.OrderService;
 import io.flowing.retail.commands.orchestration.businessmodel.ExtendedOrder.GoodsDeliveryStatus;
 
 public class OrderServiceBusinessModelOrchestration extends OrderService{
 
-  private EventProducer eventProducer = new EventProducer();
+  private OrderEventProducer eventProducer = new OrderEventProducer();
   
   private HashMap<String, ExtendedOrder> orderStorage = new HashMap<String, ExtendedOrder>();
   

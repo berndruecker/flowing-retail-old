@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestShopController {
   
-  private EventProducer eventProducer = new EventProducer();
+  private ShopEventProducer eventProducer = new ShopEventProducer();
 
   @RequestMapping(path = "/api/cart", method = GET)
   public ShoppingCart getCart(HttpSession httpSession) {
