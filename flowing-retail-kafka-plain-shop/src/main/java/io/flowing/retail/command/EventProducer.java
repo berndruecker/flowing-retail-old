@@ -30,6 +30,10 @@ public class EventProducer {
         .add("order",
             Json.createObjectBuilder() //
                 .add("customerId", customerId) //
+                .add("customer", Json.createObjectBuilder() //
+                    .add("name", "Camunda") //
+                    .add("address", "Zossener Strasse 55\n10961 Berlin\nGermany") //
+                 ) //
                 .add("items", itemsArrayBuilder))
         .build();
 

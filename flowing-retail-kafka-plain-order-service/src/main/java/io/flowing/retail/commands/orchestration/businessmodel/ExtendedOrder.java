@@ -18,6 +18,12 @@ public class ExtendedOrder extends Order {
   private boolean shipped = false;
   
   /**
+   * required to correlate ShipmentCreated event later on - as this don't know about the order id
+   * cannot easily store it somewhere else
+   */
+  private String pickId;
+  
+  /**
    * Construct an extended order out of a simple order, required
    * as the event consumer only knows about orders to keep it applicable to
    * different orchestration options. 
@@ -25,6 +31,7 @@ public class ExtendedOrder extends Order {
   public ExtendedOrder(Order o) {
     this.id = o.getId();
     this.items = o.getItems();
+    this.customer = o.getCustomer();
   }
 
   public boolean isPaymentReceived() {
@@ -55,6 +62,14 @@ public class ExtendedOrder extends Order {
   public String toString() {
     return "ExtendedOrder [id=" + id + ", items=" + items + ", paymentReceived=" + paymentReceived + ", deliveryStatus=" + deliveryStatus + ", shipped="
         + shipped + "]";
+  }
+
+  public String getPickId() {
+    return pickId;
+  }
+
+  public void setPickId(String pickId) {
+    this.pickId = pickId;
   }
 
 }

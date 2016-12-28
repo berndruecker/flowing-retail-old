@@ -9,6 +9,8 @@ public abstract class OrderService {
   public abstract void processOrder(Order order);
   public abstract void processGoodsReservation(String orderId);
   public abstract void processPaymentReceived(String orderId);    
+  public abstract void processGoodsPicked(String orderId, String pickId);
+  public abstract boolean processGoodsShipped(String pickId, String shipmentId);
   
   /**
    * get the order for the specified orderId

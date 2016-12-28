@@ -1,12 +1,8 @@
 package io.flowing.retail.commands;
 
 import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
@@ -15,39 +11,21 @@ import io.flowing.retail.commands.channel.ChannelSender;
 
 public class EventProducer {
 
-  public void publishEventGoodsReserved(String refId, String reason) {
-    JsonObjectBuilder json = createPayloadJson("Event", "GoodsReserved");
+  public void publishEventGoodsShipped(String pickId, String shippingId) {
+    JsonObjectBuilder json = createPayloadJson("Event", "GoodsShipped");
     json //
-        .add("refId", refId) //
-        .add("reason", reason);
+        .add("pickId", pickId) //
+        .add("shipmentId", shippingId);
     ChannelSender.instance.send(asString(json));
   }
 
-  public void publishEventGoodsNotReserved(String refId, String reason) {
-    JsonObjectBuilder json = createPayloadJson("Event", "GoodsNotReserved");
+  public void publishEventShipmentError(String pickId) {
+    JsonObjectBuilder json = createPayloadJson("Event", "ShipmentError");
     json //
-        .add("refId", refId) //
-        .add("reason", reason);
-    ChannelSender.instance.send(asString(json));
-  }
-
-
-  public void publishEventGoodsPicked(String refId, String reason, String pickId) {
-    JsonObjectBuilder json = createPayloadJson("Event", "GoodsPicked");
-    json //
-        .add("refId", refId) //
-        .add("reason", reason) //
         .add("pickId", pickId);
     ChannelSender.instance.send(asString(json));
   }
 
-  public void publishEventPickError(String refId, String reason) {
-    JsonObjectBuilder json = createPayloadJson("Event", "PickError");
-    json //
-        .add("refId", refId) //
-        .add("reason", reason);
-    ChannelSender.instance.send(asString(json));
-  }
   private JsonObjectBuilder createPayloadJson(String type, String name) {
     return Json.createObjectBuilder() //
         .add("type", type)//
@@ -75,6 +53,7 @@ public class EventProducer {
     return eventStringWriter.toString();
   }
 
+  
 
 
   

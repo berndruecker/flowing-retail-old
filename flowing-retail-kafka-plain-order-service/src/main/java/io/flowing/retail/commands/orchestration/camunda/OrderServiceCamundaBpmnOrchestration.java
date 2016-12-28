@@ -38,4 +38,16 @@ public class OrderServiceCamundaBpmnOrchestration extends OrderService{
     return null;
   }
 
+  @Override
+  public void processGoodsPicked(String orderId, String pickId) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public boolean processGoodsShipped(String pickId, String shipmentId) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 }

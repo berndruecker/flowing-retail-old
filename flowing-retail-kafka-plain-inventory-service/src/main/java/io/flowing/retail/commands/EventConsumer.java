@@ -36,6 +36,18 @@ public class EventConsumer {
       } else { // no stock
         eventProducer.publishEventGoodsNotReserved(refId, reason);
       }
+    }else if ("Command".equals(type) && "PickGoods".equals(name)) {
+        String refId = event.getString("refId");
+        String reason = event.getString("reason");
+        ArrayList<Item> items = parseItems(event.getJsonArray("items"));
+
+        String pickId = InventoryService.instance.pickItems(items, refId, reason);
+        if (pickId!=null) {
+          // TODO: Maybe move in inventory service?
+          eventProducer.publishEventGoodsPicked(refId, reason, pickId);
+        } else { // no stock
+          eventProducer.publishEventPickError(refId, reason);
+        }
     } else {
       System.out.println("..ignored");
     }

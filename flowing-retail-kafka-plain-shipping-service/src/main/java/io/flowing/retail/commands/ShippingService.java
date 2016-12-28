@@ -1,6 +1,10 @@
-package io.flowing.retail.command;
+package io.flowing.retail.commands;
 
-public interface ShippingService {
+import java.util.UUID;
+
+public class ShippingService {
+  
+  public static ShippingService instance = new ShippingService();
 
   /**
    * 
@@ -10,6 +14,8 @@ public interface ShippingService {
    * @param logisticsProvider delivering the shipment (e.g. DHL, UPS, ...)
    * @return shipment id created (also printed on the label of the parcel)
    */
-  public String createShipment(String pickId, String recipientName, String recipientAddress, String logisticsProvider);
+  public String createShipment(String pickId, String recipientName, String recipientAddress, String logisticsProvider) {
+    return UUID.randomUUID().toString();
+  }
 
 }

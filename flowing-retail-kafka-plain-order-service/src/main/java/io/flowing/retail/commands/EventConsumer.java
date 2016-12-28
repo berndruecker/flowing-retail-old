@@ -40,6 +40,22 @@ public class EventConsumer {
       } else {
         System.out.println("..ignored (reservation not for a customer order).");        
       }
+    } else if ("Event".equals(type) && "GoodsPicked".equals(name)) {
+      String reason = event.getString("reason");
+      if ("CustomerOrder".equals(reason)) {
+        String orderId = event.getString("refId");
+        String pickId = event.getString("pickId");
+        OrderService.instance.processGoodsPicked(orderId, pickId); // TODO: oder direkt?
+      } else {
+        System.out.println("..ignored (reservation not for a customer order).");        
+      }
+    } else if ("Event".equals(type) && "GoodsShipped".equals(name)) {
+      String pickId = event.getString("pickId");
+      String shipmentId = event.getString("shipmentId");
+      boolean processed = OrderService.instance.processGoodsShipped(pickId, shipmentId);
+      if (!processed) {
+        System.out.println("..ignored (shipment seems not to belong to a customer order).");        
+      }
     } else {
       System.out.println("..ignored.");
     }
@@ -49,7 +65,13 @@ public class EventConsumer {
     Order order = new Order();
 
     // Order Service is NOT interested in customer id - ignore:
+    JsonObject customerJson = orderJson.getJsonObject("customer");
     orderJson.getString("customerId");
+
+    Customer customer = new Customer() //
+      .setName(customerJson.getString("name")) //
+      .setAddress(customerJson.getString("address"));
+    order.setCustomer(customer);
 
     JsonArray jsonArray = orderJson.getJsonArray("items");
     for (JsonObject itemJson : jsonArray.getValuesAs(JsonObject.class)) {

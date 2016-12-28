@@ -8,14 +8,16 @@ public class Customer {
   public String getName() {
     return name;
   }
-  public void setName(String name) {
+  public Customer setName(String name) {
     this.name = name;
+    return this;
   }
   public String getAddress() {
     return address;
   }
-  public void setAddress(String address) {
+  public Customer setAddress(String address) {
     this.address = address;
+    return this;
   }
 
 }

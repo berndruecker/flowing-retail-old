@@ -63,15 +63,22 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
   public void processGoodsPicked(String orderId, String pickId) {    
     ExtendedOrder order = orderStorage.get(orderId);
     order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_PICKED);
+    order.setPickId(pickId);
     eventProducer.publishCommandShipGoods(order, pickId);    
   }
 
-  public void processGoodsShipped(String orderId, String shipmentId) {    
-    ExtendedOrder order = orderStorage.get(orderId);
-    order.setShipped(true);
-    // we ignore the shipmentId - as the order service is not interested
-
-    eventProducer.publishEventOrderCompleted(orderId);    
+  public boolean processGoodsShipped(String pickId, String shipmentId) {
+    for (ExtendedOrder order : orderStorage.values()) {
+      if (pickId.equals(order.getPickId())) {        
+        order.setShipped(true);
+        // we ignore the shipmentId - as the order service is not interested
+        
+        eventProducer.publishEventOrderCompleted(order.getId());    
+        return true;
+      }
+    }
+    return false;
   }
+
 
 }
