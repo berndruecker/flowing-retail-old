@@ -2,10 +2,9 @@ package io.flowing.retail.commands.orchestration.businessmodel;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
-import io.flowing.retail.commands.OrderEventProducer;
 import io.flowing.retail.commands.Order;
+import io.flowing.retail.commands.OrderEventProducer;
 import io.flowing.retail.commands.OrderService;
 import io.flowing.retail.commands.orchestration.businessmodel.ExtendedOrder.GoodsDeliveryStatus;
 

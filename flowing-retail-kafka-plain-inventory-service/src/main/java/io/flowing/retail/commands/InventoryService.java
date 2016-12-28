@@ -1,8 +1,6 @@
 package io.flowing.retail.commands;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.flowing.retail.commands.impl.InventoryServiceImpl;
