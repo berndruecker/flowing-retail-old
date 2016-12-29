@@ -4,6 +4,7 @@ import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.camunda.consulting.util.LicenseHelper;
@@ -14,6 +15,7 @@ import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 @EnableProcessApplication
 public class ApplicationBpmnMonitor  {
 
