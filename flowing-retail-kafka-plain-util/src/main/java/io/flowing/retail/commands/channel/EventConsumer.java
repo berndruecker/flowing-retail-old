@@ -23,13 +23,19 @@ public abstract class EventConsumer {
     String type = event.getString("type");
     String name = event.getString("name");
 
-    boolean handled = handleEvent(type, name, event);
-    
-    if (handled) {
-      System.out.println("Finished handling: " + eventAsJson);
-    }else {
-      System.out.println("Ignored " + type + " " + name);
-    }
+    try {
+      
+      boolean handled = handleEvent(type, name, event);
+      if (handled) {
+        System.out.println("Finished handling: " + eventAsJson);
+      }else {
+        System.out.println("Ignored " + type + " " + name);
+      }
+      
+    } catch (Exception ex) {
+      System.out.println(ex.getClass() + " '" + ex.getMessage() + "' while handling: " + eventAsJson);
+      ex.printStackTrace();
+    }    
   }
 
   public abstract boolean handleEvent(String type, String name, JsonObject event);

@@ -9,7 +9,7 @@ import io.flowing.retail.commands.channel.EventProducer;
 public class ShopEventProducer extends EventProducer {
 
   public void publishEventOrderPlaced(String correlationId, String customerId, ShoppingCart shoppingCart) {
-    JsonObjectBuilder event = createEventPayloadJson("OrderPlacedEvent");
+    JsonObjectBuilder event = createEventPayloadJson("OrderPlaced");
 
     JsonArrayBuilder itemsArrayBuilder = Json.createArrayBuilder();
     for (Item item : shoppingCart.getItems()) {
