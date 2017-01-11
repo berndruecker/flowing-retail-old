@@ -9,7 +9,7 @@ public class SimpleStarter {
 
   public static void main(String[] args) throws Exception {
     ApplicationShop.main(args);
-    ApplicationOrder.main(args);
+//    ApplicationOrder.main(args);
     ApplicationPayment.main(args);
     ApplicationInventory.main(args);
     ApplicationShipping.main(args);

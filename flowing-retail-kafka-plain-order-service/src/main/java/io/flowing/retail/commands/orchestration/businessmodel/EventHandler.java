@@ -1,26 +1,23 @@
 package io.flowing.retail.commands.orchestration.businessmodel;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import io.flowing.retail.commands.Order;
 import io.flowing.retail.commands.OrderEventProducer;
-import io.flowing.retail.commands.OrderService;
+import io.flowing.retail.commands.OrderRepository;
 import io.flowing.retail.commands.orchestration.businessmodel.ExtendedOrder.GoodsDeliveryStatus;
 
-public class OrderServiceBusinessModelOrchestration extends OrderService{
+public class EventHandler {
 
   private OrderEventProducer eventProducer = new OrderEventProducer();
+  private OrderRepository orderRepository = OrderRepository.instance;
   
-  private HashMap<String, ExtendedOrder> orderStorage = new HashMap<String, ExtendedOrder>();
-  
-  // TODO: This class mixes issues (Persistence and Event Handling)
   public void processOrder(String correlationId, Order order) {
     ExtendedOrder extendedOrder = new ExtendedOrder(order);
     System.out.println("order will be processed: " + extendedOrder);
     
     // "Persist" order
-    orderStorage.put(order.getId(), extendedOrder);
+    orderRepository.persistOrder(extendedOrder);
 
     eventProducer.publishEventOrderCreated(correlationId, order);
     
@@ -30,17 +27,8 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
     eventProducer.publishCommandDoPayment(order);
   }
 
-  public Order getOrder(String orderId) {
-    // TODO Auto-generated method stub
-    return orderStorage.get(orderId);
-  }
-
-  public Collection<? extends Order> findOrders() {
-    return orderStorage.values();
-  }
-  
   public void processGoodsReservation(String orderId) { 
-    ExtendedOrder order = orderStorage.get(orderId);
+    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
     synchronized (order) { // TODO: double check
       order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_RESERVED);
       checkOrderReadyForPicking(order);
@@ -48,7 +36,7 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
   }
 
   public void processPaymentReceived(String orderId) {    
-    ExtendedOrder order = orderStorage.get(orderId);
+    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
     synchronized (order) {
       order.setPaymentReceived(true);
       checkOrderReadyForPicking(order);      
@@ -62,14 +50,14 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
   }
 
   public void processGoodsPicked(String orderId, String pickId) {    
-    ExtendedOrder order = orderStorage.get(orderId);
+    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
     order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_PICKED);
     order.setPickId(pickId);
     eventProducer.publishCommandShipGoods(order, pickId);    
   }
 
   public boolean processGoodsShipped(String pickId, String shipmentId) {
-    for (ExtendedOrder order : orderStorage.values()) {
+    for (ExtendedOrder order : (Collection<? extends ExtendedOrder>)orderRepository.findOrders()) {
       if (pickId.equals(order.getPickId())) {        
         order.setShipped(true);
         // we ignore the shipmentId - as the order service is not interested
@@ -80,6 +68,4 @@ public class OrderServiceBusinessModelOrchestration extends OrderService{
     }
     return false;
   }
-
-
 }

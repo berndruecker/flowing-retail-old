@@ -27,9 +27,9 @@ public abstract class EventConsumer {
       
       boolean handled = handleEvent(type, name, event);
       if (handled) {
-        System.out.println("Finished handling: " + eventAsJson);
+        System.out.println("[" + this.getClass().getSimpleName() + "] Handled: " + type + " " + name + " " + eventAsJson);
       }else {
-        System.out.println("Ignored " + type + " " + name);
+        System.out.println("[" + this.getClass().getSimpleName() + "] Ignored " + type + " " + name + " " + eventAsJson);
       }
       
     } catch (Exception ex) {

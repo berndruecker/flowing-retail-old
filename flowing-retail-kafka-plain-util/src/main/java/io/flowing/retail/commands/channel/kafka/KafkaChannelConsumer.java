@@ -52,19 +52,23 @@ public class KafkaChannelConsumer extends ChannelConsumer {
     }
 
     public void run() {
+//      ZkUtils.maybeDeletePath("localhost:2181", "/consumers/" + groupId);
+      
       Properties configProperties = new Properties();
       configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
       configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
       configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
+      
+      configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
       EventConsumer eventConsumer = EventConsumer.instance;
 
       // Figure out where to start processing messages from
       kafkaConsumer = new KafkaConsumer<String, String>(configProperties);
       kafkaConsumer.subscribe(Arrays.asList(topicName));
-      System.out.println("Started consumer and subscribed .....");
+      System.out.println("["+groupId+"] Started consumer and subscribed to topic " + topicName);
 
       // Start processing messages
       try {
