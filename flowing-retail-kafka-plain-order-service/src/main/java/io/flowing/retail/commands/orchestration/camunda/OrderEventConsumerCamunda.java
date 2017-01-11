@@ -1,17 +1,19 @@
 package io.flowing.retail.commands.orchestration.camunda;
 
-import java.util.HashMap;
-
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonString;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.h2.tools.Server;
+
+import com.camunda.consulting.util.LicenseHelper;
+import com.camunda.consulting.util.UserGenerator;
 
 import io.flowing.retail.commands.Customer;
 import io.flowing.retail.commands.Order;
@@ -23,6 +25,7 @@ public class OrderEventConsumerCamunda extends EventConsumer {
 
   private ProcessEngine engine;
   private OrderRepository orderRepository = OrderRepository.instance;
+  private org.h2.tools.Server h2Server;
 
   public OrderEventConsumerCamunda() {
     init();
@@ -30,7 +33,17 @@ public class OrderEventConsumerCamunda extends EventConsumer {
 
   private void init() {
     StandaloneInMemProcessEngineConfiguration config = new StandaloneInMemProcessEngineConfiguration();
+    config.setHistoryLevel(HistoryLevel.HISTORY_LEVEL_FULL);
     engine = config.buildProcessEngine();
+    LicenseHelper.setLicense(engine);
+    UserGenerator.createDefaultUsers(engine);
+    
+    try {
+    h2Server = Server.createTcpServer(new String[] {"-tcpPort", "8092", "-tcpAllowOthers"}).start(); 
+    // now you can connect to "jdbc:h2:tcp://localhost:8092/mem:camunda" 
+    } catch (Exception ex) {
+      throw new RuntimeException("Could not start H2 database server: " + ex.getMessage(), ex);
+    }
 
     engine.getRepositoryService().createDeployment().addClasspathResource("order.bpmn").deploy();
 
@@ -39,6 +52,7 @@ public class OrderEventConsumerCamunda extends EventConsumer {
       public void run() {
         try {
           engine.close();
+          h2Server.stop();
         } catch (Exception e) {
           throw new RuntimeException("Could not disconnect: " + e.getMessage(), e);
         }
