@@ -19,7 +19,7 @@ function AutoLayout() {
 
 module.exports = AutoLayout;
 
-AutoLayout.prototype.layoutProcess = function(xmlStr) {
+AutoLayout.prototype.layoutProcess = function(xmlStr, callback) {
 
   var self = this;
   var moddle = this.moddle;
@@ -37,7 +37,8 @@ AutoLayout.prototype.layoutProcess = function(xmlStr) {
     self._breadFirstSearch(root, rootDi);
 
     moddle.toXML(moddleWithoutDi, function(err, xmlWithDi) {
-      console.log(xmlWithDi);
+      //console.log(xmlWithDi);
+      callback.call(xmlWithDi);
     });
 
   });

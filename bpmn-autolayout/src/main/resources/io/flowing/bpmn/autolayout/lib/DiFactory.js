@@ -58,17 +58,17 @@ DiFactory.prototype.createDiWaypoint = function(point) {
 };
 
 
-DiFactory.prototype.createDiEdge = function(semantic, waypoints, attrs) {
+DiFactory.prototype.createDiEdge = function(semantic, waypoints, attrs) {  
   return this.create('bpmndi:BPMNEdge', assign({
     bpmnElement: semantic,
     waypoint: this.createDiWaypoints(waypoints)
   }, attrs));
 };
 
-DiFactory.prototype.createDiPlane = function(attrs) {
-  return this.create('bpmndi:BPMNPlane', {
-    bpmnElement: attrs
-  });
+DiFactory.prototype.createDiPlane = function(semantic, attrs) {
+  return this.create('bpmndi:BPMNPlane', assign({
+    bpmnElement: semantic
+  }, attrs));
 };
 
 DiFactory.prototype.createDiDiagram = function(attrs) {
@@ -89,7 +89,7 @@ DiFactory.prototype.createBpmnElementDi = function(elementType, attrs, pos) {
     });
   } else
   if (elementType === 'root') {
-    di = this.createDiPlane(attrs);
+    di = this.createDiPlane(businessObject, attrs);
   } else
   if (elementType === 'connection') {
     var connection = attrs;
@@ -132,6 +132,9 @@ DiFactory.prototype._getDefaultSize = function(element) {
   }
 
   if (is(element, 'bpmn:Gateway')) {
+    return { width: 50, height: 50 };
+  }
+  if (is(element, 'bpmn:ParallelGateway')) {
     return { width: 50, height: 50 };
   }
 
