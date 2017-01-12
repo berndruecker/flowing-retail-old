@@ -92,7 +92,7 @@ public class OrderEventConsumerCamunda extends EventConsumer {
 
   @Override
   public boolean handleEvent(String type, String name, JsonObject event) {
-    if ("Event".equals(type) && "OrderPlaced".equals(name)) {
+    if ("Event".equals(type) && "OrderPlaced".equals(name)) { 
       String correlationId = event.getString("correlationId");
       Order order = parseOrder(event.getJsonObject("order"));
 
