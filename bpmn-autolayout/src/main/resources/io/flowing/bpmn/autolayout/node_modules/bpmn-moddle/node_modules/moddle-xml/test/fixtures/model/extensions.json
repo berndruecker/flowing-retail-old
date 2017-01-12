@@ -1,0 +1,17 @@
+{
+  "name": "Extensions",
+  "uri": "http://extensions",
+  "prefix": "e",
+  "xml" : {
+    "tagAlias": "lowerCase"
+  },
+  "types": [
+    {
+      "name": "Root",
+      "properties": [
+        { "name": "id", "type": "String", "isId": true },
+        { "name": "extensions", "type": "Element", "isMany" : true }
+      ]
+    }
+  ]
+}

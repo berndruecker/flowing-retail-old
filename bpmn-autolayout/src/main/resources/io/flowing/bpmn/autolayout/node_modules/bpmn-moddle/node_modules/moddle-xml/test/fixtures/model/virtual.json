@@ -1,0 +1,16 @@
+{
+  "name": "Virtual",
+  "uri": "http://virtual",
+  "prefix": "virt",
+  "types": [
+    {
+      "name": "Root",
+      "properties": [
+        { "name": "child", "type": "Child", "isVirtual": true }
+      ]
+    },
+    {
+      "name": "Child"
+    }
+  ]
+}

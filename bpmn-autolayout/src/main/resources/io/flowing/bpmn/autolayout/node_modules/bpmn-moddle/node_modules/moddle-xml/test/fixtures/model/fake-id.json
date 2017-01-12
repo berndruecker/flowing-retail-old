@@ -1,0 +1,33 @@
+{
+  "name": "FakeId",
+  "uri": "http://fakeid",
+  "prefix": "fi",
+  "types": [
+    {
+      "name": "Root",
+      "properties": [
+        {
+          "name": "children",
+          "type": "ChildWithFakeId",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "ChildWithFakeId",
+      "properties": [
+        {
+          "name": "id",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "ref",
+          "type": "String",
+          "isReference": true,
+          "isAttr": true
+        }
+      ]
+    }
+  ]
+}
