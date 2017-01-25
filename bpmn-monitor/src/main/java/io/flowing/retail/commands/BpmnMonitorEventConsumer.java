@@ -7,7 +7,7 @@ import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 
-import io.flowing.retail.commands.channel.EventHandler;
+import io.flowing.retail.adapter.EventHandler;
 
 public class BpmnMonitorEventConsumer extends EventHandler {
 

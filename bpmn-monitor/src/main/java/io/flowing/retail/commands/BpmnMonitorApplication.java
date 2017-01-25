@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.camunda.consulting.util.LicenseHelper;
 import com.camunda.consulting.util.UserGenerator;
 
-import io.flowing.retail.commands.channel.ChannelStartup;
-import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
-import io.flowing.retail.commands.channel.kafka.KafkaSender;
+import io.flowing.retail.adapter.ChannelStartup;
+import io.flowing.retail.adapter.kafka.KafkaChannelConsumer;
+import io.flowing.retail.adapter.kafka.KafkaSender;
 
 @SpringBootApplication
 @EnableAutoConfiguration
