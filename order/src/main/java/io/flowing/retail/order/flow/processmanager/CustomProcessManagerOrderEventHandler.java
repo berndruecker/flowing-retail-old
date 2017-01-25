@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.processmanager;
+package io.flowing.retail.order.flow.processmanager;
 
 import javax.json.JsonObject;
 

@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.businessmodel;
+package io.flowing.retail.order.flow.entitystate;
 
 import java.util.Collection;
 
@@ -11,9 +11,9 @@ import io.flowing.retail.order.domain.Customer;
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
-import io.flowing.retail.order.process.businessmodel.ExtendedOrder.GoodsDeliveryStatus;
+import io.flowing.retail.order.flow.entitystate.ExtendedOrder.GoodsDeliveryStatus;
 
-public class BusinessModelOrderEventHandler extends EventHandler {
+public class EntityStateOrderEventHandler extends EventHandler {
   
   private OrderEventProducer eventProducer = new OrderEventProducer();
   private OrderRepository orderRepository = OrderRepository.instance;

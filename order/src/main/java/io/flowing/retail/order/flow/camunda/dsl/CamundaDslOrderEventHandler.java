@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.dsl;
+package io.flowing.retail.order.flow.camunda.dsl;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -47,8 +47,8 @@ import io.flowing.retail.order.domain.Customer;
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
-import io.flowing.retail.order.process.camunda.dsl.commons.camunda.CamundaFlowBuilder;
-import io.flowing.retail.order.process.camunda.dsl.commons.camunda.DslCamundaEventHandler;
+import io.flowing.retail.order.flow.camunda.dsl.commons.camunda.CamundaFlowBuilder;
+import io.flowing.retail.order.flow.camunda.dsl.commons.camunda.DslCamundaEventHandler;
 
 /**
  * Application Service or Command Handler assign a unique process identity

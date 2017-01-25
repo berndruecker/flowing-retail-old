@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.classic;
+package io.flowing.retail.order.flow.camunda.classic;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
-package io.flowing.retail.order.process.camunda.dsl.commons;
+package io.flowing.retail.order.flow.camunda.dsl.commons;
 
-import io.flowing.retail.order.process.camunda.dsl.commons.camunda.CamundaFlowBuilder;
+import io.flowing.retail.order.flow.camunda.dsl.commons.camunda.CamundaFlowBuilder;
 
 public interface FlowBuilder {
 

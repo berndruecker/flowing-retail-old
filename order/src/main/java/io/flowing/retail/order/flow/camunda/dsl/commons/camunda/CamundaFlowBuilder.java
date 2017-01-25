@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.dsl.commons.camunda;
+package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
 import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMN20_NS;
 import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMNDI_NS;
@@ -32,9 +32,9 @@ import org.xml.sax.helpers.XMLFilterImpl;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import io.flowing.bpmn.autolayout.AutoLayout;
-import io.flowing.retail.order.process.camunda.dsl.commons.EventInput;
-import io.flowing.retail.order.process.camunda.dsl.commons.FlowBuilder;
-import io.flowing.retail.order.process.camunda.dsl.commons.Registry;
+import io.flowing.retail.order.flow.camunda.dsl.commons.EventInput;
+import io.flowing.retail.order.flow.camunda.dsl.commons.FlowBuilder;
+import io.flowing.retail.order.flow.camunda.dsl.commons.Registry;
 
 public class CamundaFlowBuilder implements FlowBuilder {
 

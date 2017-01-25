@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.dsl.commons.camunda;
+package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
 import java.io.StringReader;
 import java.io.StringWriter;

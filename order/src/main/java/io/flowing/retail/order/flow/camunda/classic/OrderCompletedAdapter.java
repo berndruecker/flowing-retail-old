@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.classic;
+package io.flowing.retail.order.flow.camunda.classic;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

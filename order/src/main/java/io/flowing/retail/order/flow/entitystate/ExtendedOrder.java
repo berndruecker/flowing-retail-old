@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.businessmodel;
+package io.flowing.retail.order.flow.entitystate;
 
 import io.flowing.retail.order.domain.Order;
 

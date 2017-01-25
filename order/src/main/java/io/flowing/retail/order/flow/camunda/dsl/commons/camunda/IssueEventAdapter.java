@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.camunda.dsl.commons.camunda;
+package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -7,9 +7,9 @@ import org.camunda.bpm.engine.impl.el.FixedValue;
 import io.flowing.retail.adapter.ChannelSender;
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderRepository;
-import io.flowing.retail.order.process.camunda.dsl.commons.EventContext;
-import io.flowing.retail.order.process.camunda.dsl.commons.EventInput;
-import io.flowing.retail.order.process.camunda.dsl.commons.Registry;
+import io.flowing.retail.order.flow.camunda.dsl.commons.EventContext;
+import io.flowing.retail.order.flow.camunda.dsl.commons.EventInput;
+import io.flowing.retail.order.flow.camunda.dsl.commons.Registry;
 
 public class IssueEventAdapter implements JavaDelegate {
 
