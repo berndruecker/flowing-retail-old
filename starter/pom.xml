@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.flowing.retail.kafka.plain</groupId>
-	<artifactId>flowing-retail-kafka-plain-starter</artifactId>
+	<groupId>io.flowing.retail</groupId>
+	<artifactId>flowing-retail-starter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -10,28 +10,28 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>io.flowing.retail.kafka.plain</groupId>
-			<artifactId>flowing-retail-kafka-plain-shop</artifactId>
+			<groupId>io.flowing.retail</groupId>
+			<artifactId>flowing-retail-shop</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>io.flowing.retail.kafka.plain</groupId>
-			<artifactId>flowing-retail-kafka-plain-order-service</artifactId>
+			<groupId>io.flowing.retail</groupId>
+			<artifactId>flowing-retail-order</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>io.flowing.retail.kafka.plain</groupId>
-			<artifactId>flowing-retail-kafka-plain-inventory-service</artifactId>
+			<groupId>io.flowing.retail</groupId>
+			<artifactId>flowing-retail-inventory</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>io.flowing.retail.kafka.plain</groupId>
-			<artifactId>flowing-retail-kafka-plain-payment-service</artifactId>
+			<groupId>io.flowing.retail</groupId>
+			<artifactId>flowing-retail-payment</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>io.flowing.retail.kafka.plain</groupId>
-			<artifactId>flowing-retail-kafka-plain-shipping-service</artifactId>
+			<groupId>io.flowing.retail</groupId>
+			<artifactId>flowing-retail-shipping</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

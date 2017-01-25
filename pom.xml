@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.flowing.retail.kafka.plain</groupId>
-	<artifactId>flowing-retail-kafka-plain</artifactId>
+	<groupId>io.flowing.retail</groupId>
+	<artifactId>flowing-retail</artifactId>
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
@@ -10,14 +10,17 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<modules>
-		<module>flowing-retail-kafka-plain-util</module>
-		<module>flowing-retail-kafka-plain-shop</module>
-		<module>flowing-retail-kafka-plain-inventory-service</module>
-		<module>flowing-retail-kafka-plain-order-service</module>
-		<module>flowing-retail-kafka-plain-payment-service</module>
-		<module>flowing-retail-kafka-plain-shipping-service</module>
-		<module>flowing-retail-kafka-plain-starter</module>
-		<module>flowing-retail-kafka-plain-bpmn-monitor</module>
+		<module>commons</module>
+		<module>starter</module>
+
+		<module>shop</module>
+
+		<module>inventory</module>
+		<module>order</module>
+		<module>payment</module>
+		<module>shipping</module>
+
+		<module>bpmn-monitor</module>
 		<module>bpmn-autolayout</module>
 	</modules>
 </project>
