@@ -3,8 +3,7 @@ package io.flowing.retail.commands;
 import io.flowing.retail.commands.channel.ChannelStartup;
 import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
-import io.flowing.retail.commands.orchestration.camunda.OrderEventConsumerCamunda;
-import io.flowing.retail.commands.orchestration.dsl.camunda.DslCamundaEventConsumer;
+import io.flowing.retail.commands.orchestration.dsl.camunda.OrderDslCamundaEventHandler;
 
 public class ApplicationOrder {
 
@@ -16,7 +15,7 @@ public class ApplicationOrder {
         "ORDER", //
         new KafkaSender(), //
         new KafkaChannelConsumer("order"), //
-        new DslCamundaEventConsumer()); 
+        new OrderDslCamundaEventHandler()); 
   }
 
 }

@@ -10,7 +10,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 
 import io.flowing.retail.commands.channel.ChannelConsumer;
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
 public class KafkaChannelConsumer extends ChannelConsumer {
 
@@ -63,7 +63,7 @@ public class KafkaChannelConsumer extends ChannelConsumer {
       
       configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-      EventConsumer eventConsumer = EventConsumer.instance;
+      EventHandler eventConsumer = EventHandler.instance;
 
       // Figure out where to start processing messages from
       kafkaConsumer = new KafkaConsumer<String, String>(configProperties);

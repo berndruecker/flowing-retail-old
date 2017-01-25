@@ -2,9 +2,9 @@ package io.flowing.retail.commands;
 
 import javax.json.JsonObject;
 
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
-public class PaymentEventConsumer extends EventConsumer {
+public class PaymentEventConsumer extends EventHandler {
 
   private PaymentEventProducer eventProducer = new PaymentEventProducer();
 

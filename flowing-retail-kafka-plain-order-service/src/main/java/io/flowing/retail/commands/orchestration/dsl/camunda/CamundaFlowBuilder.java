@@ -1,6 +1,7 @@
 package io.flowing.retail.commands.orchestration.dsl.camunda;
 
-import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.*;
+import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMN20_NS;
+import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMNDI_NS;
 import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_NS;
 
 import java.io.StringReader;
@@ -10,7 +11,6 @@ import java.lang.reflect.Method;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -232,5 +232,16 @@ public class CamundaFlowBuilder implements FlowBuilder {
       throw new ModelIoException("Unable to transform XML: " + e.getMessage(), e);
     }
     return xmlWithoutLayout;
+  }
+
+  @Override
+  public FlowBuilder correlation(String variableName, String... synonymNames) {
+    return this;
+  }
+
+  @Override
+  public FlowBuilder correlationPartner(String... partnerCorrelationVariableName) {
+    // TODO Auto-generated method stub
+    return this;
   }  
 }

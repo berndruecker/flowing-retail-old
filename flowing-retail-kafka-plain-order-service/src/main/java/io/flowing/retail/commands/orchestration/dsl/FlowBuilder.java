@@ -1,5 +1,7 @@
 package io.flowing.retail.commands.orchestration.dsl;
 
+import io.flowing.retail.commands.orchestration.dsl.camunda.CamundaFlowBuilder;
+
 public interface FlowBuilder {
 
   FlowBuilder startWithEvent(String event, EventInput eventInput);
@@ -15,5 +17,9 @@ public interface FlowBuilder {
   FlowBuilder waitForEvents(String... events);
 
   FlowBuilder waitForEvent(String event);
+
+  FlowBuilder correlation(String variableName, String... synonymNames);
+
+  FlowBuilder correlationPartner(String... partnerCorrelationVariableName);
 
 }

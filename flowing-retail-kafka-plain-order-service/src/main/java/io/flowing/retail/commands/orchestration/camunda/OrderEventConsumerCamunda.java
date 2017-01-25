@@ -19,9 +19,9 @@ import io.flowing.retail.commands.Customer;
 import io.flowing.retail.commands.Order;
 import io.flowing.retail.commands.OrderItem;
 import io.flowing.retail.commands.OrderRepository;
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
-public class OrderEventConsumerCamunda extends EventConsumer {
+public class OrderEventConsumerCamunda extends EventHandler {
 
   private ProcessEngine engine;
   private OrderRepository orderRepository = OrderRepository.instance;

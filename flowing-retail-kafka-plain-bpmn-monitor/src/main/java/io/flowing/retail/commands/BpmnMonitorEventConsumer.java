@@ -7,9 +7,9 @@ import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
-public class BpmnMonitorEventConsumer extends EventConsumer {
+public class BpmnMonitorEventConsumer extends EventHandler {
 
   @Override
   public boolean handleEvent(String type, String name, JsonObject event) {

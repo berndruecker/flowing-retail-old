@@ -2,10 +2,7 @@ package io.flowing.retail.commands.orchestration.dsl.custom;
 
 import javax.json.JsonObject;
 
-import org.camunda.bpm.engine.impl.event.EventHandler;
-
-import io.flowing.retail.commands.Order;
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
 /**
  * Application Service or Command Handler assign a unique process identity
@@ -13,7 +10,7 @@ import io.flowing.retail.commands.channel.EventConsumer;
  * @author ruecker
  *
  */
-public class OwnProcessManagerEventHandler extends EventConsumer {
+public class OwnProcessManagerEventHandler extends EventHandler {
 
   public boolean handleEvent(String type, String name, JsonObject event) {
 

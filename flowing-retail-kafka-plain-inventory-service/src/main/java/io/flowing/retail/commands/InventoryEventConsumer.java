@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
-public class InventoryEventConsumer extends EventConsumer {
+public class InventoryEventConsumer extends EventHandler {
 
   private InventoryEventProducer eventProducer = new InventoryEventProducer();
 

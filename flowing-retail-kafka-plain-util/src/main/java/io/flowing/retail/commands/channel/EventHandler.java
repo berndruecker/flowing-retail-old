@@ -9,9 +9,9 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
 
-public abstract class EventConsumer {
+public abstract class EventHandler {
 
-  public static EventConsumer instance = null;
+  public static EventHandler instance = null;
 
   public void handleEvent(String eventAsJson) {
     System.out.println("-");

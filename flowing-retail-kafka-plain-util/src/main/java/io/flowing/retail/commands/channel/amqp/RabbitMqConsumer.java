@@ -11,13 +11,13 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
 import io.flowing.retail.commands.channel.ChannelConsumer;
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
 public class RabbitMqConsumer extends ChannelConsumer {
 
   public static String QUEUE_NAME = "flowing-retail";
 
-  private EventConsumer eventConsumer = EventConsumer.instance;
+  private EventHandler eventConsumer = EventHandler.instance;
 
   private Channel channel;
 

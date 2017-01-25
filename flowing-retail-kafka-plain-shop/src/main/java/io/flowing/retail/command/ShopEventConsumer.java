@@ -2,9 +2,9 @@ package io.flowing.retail.command;
 
 import javax.json.JsonObject;
 
-import io.flowing.retail.commands.channel.EventConsumer;
+import io.flowing.retail.commands.channel.EventHandler;
 
-public class ShopEventConsumer extends EventConsumer {
+public class ShopEventConsumer extends EventHandler {
 
   @Override
   public boolean handleEvent(String type, String name, JsonObject event) {
