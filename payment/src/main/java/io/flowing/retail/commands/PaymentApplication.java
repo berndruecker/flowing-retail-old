@@ -4,7 +4,7 @@ import io.flowing.retail.commands.channel.ChannelStartup;
 import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
 
-public class ApplicationPayment {
+public class PaymentApplication {
 
   public static void main(String[] args) throws Exception {
     ChannelStartup.startup( //

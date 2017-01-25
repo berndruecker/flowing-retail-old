@@ -17,7 +17,7 @@ import io.flowing.retail.commands.channel.kafka.KafkaSender;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableProcessApplication
-public class ApplicationBpmnMonitor  {
+public class BpmnMonitorApplication  {
 
   public static void main(String... args) {
     ChannelStartup.startup( //
@@ -26,7 +26,7 @@ public class ApplicationBpmnMonitor  {
         new KafkaChannelConsumer("bpmn-monitor"), //
         new BpmnMonitorEventConsumer());
 
-    SpringApplication.run(ApplicationBpmnMonitor.class, args);
+    SpringApplication.run(BpmnMonitorApplication.class, args);
 
     // now install license and add default users to Camunda to be ready-to-go
     ProcessEngine engine = BpmPlatform.getDefaultProcessEngine();    

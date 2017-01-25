@@ -8,7 +8,7 @@ import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
 
 @SpringBootApplication
-public class ApplicationShop {
+public class ShopApplication {
 
   public static void main(String[] args) {
     ChannelStartup.startup( //
@@ -18,7 +18,7 @@ public class ApplicationShop {
         new ShopEventConsumer());
     
     // and startup spring boot for Tomcat + REST
-    SpringApplication.run(ApplicationShop.class, args);
+    SpringApplication.run(ShopApplication.class, args);
   }
 
 }

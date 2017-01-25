@@ -5,7 +5,7 @@ import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
 import io.flowing.retail.commands.orchestration.dsl.camunda.OrderDslCamundaEventHandler;
 
-public class ApplicationOrder {
+public class OrderApplication {
 
   public static void main(String[] args) throws Exception {
     // Select type of orchestration

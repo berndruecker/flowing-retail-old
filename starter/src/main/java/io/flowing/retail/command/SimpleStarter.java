@@ -1,18 +1,18 @@
 package io.flowing.retail.command;
 
-import io.flowing.retail.commands.ApplicationInventory;
-import io.flowing.retail.commands.ApplicationOrder;
-import io.flowing.retail.commands.ApplicationPayment;
-import io.flowing.retail.commands.ApplicationShipping;
+import io.flowing.retail.commands.InventoryApplication;
+import io.flowing.retail.commands.OrderApplication;
+import io.flowing.retail.commands.PaymentApplication;
+import io.flowing.retail.commands.ShippingApplication;
 
 public class SimpleStarter {
 
   public static void main(String[] args) throws Exception {
-    ApplicationShop.main(args);
-    ApplicationOrder.main(args);
-    ApplicationPayment.main(args);
-    ApplicationInventory.main(args);
-    ApplicationShipping.main(args);
+    ShopApplication.main(args);
+    OrderApplication.main(args);
+    PaymentApplication.main(args);
+    InventoryApplication.main(args);
+    ShippingApplication.main(args);
   }
 
 }

@@ -4,14 +4,14 @@ import io.flowing.retail.commands.channel.ChannelStartup;
 import io.flowing.retail.commands.channel.kafka.KafkaChannelConsumer;
 import io.flowing.retail.commands.channel.kafka.KafkaSender;
 
-public class ApplicationShipping {
+public class InventoryApplication {
 
-  public static void main(String[] args) throws Exception {    
+  public static void main(String[] args) throws Exception {
     ChannelStartup.startup( //
-        "SHIPPING", //
+        "INVENTORY", //
         new KafkaSender(), //
-        new KafkaChannelConsumer("shipping"), //
-        new ShippingEventConsumer());
+        new KafkaChannelConsumer("inventory"), //
+        new InventoryEventConsumer());
   }
 
 }
