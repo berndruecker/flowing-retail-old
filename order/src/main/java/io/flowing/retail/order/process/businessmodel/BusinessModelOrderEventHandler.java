@@ -13,7 +13,7 @@ import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
 import io.flowing.retail.order.process.businessmodel.ExtendedOrder.GoodsDeliveryStatus;
 
-public class OrderEventHandler extends EventHandler {
+public class BusinessModelOrderEventHandler extends EventHandler {
   
   private OrderEventProducer eventProducer = new OrderEventProducer();
   private OrderRepository orderRepository = OrderRepository.instance;

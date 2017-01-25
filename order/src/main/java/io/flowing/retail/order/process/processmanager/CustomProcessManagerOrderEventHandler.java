@@ -5,12 +5,10 @@ import javax.json.JsonObject;
 import io.flowing.retail.adapter.EventHandler;
 
 /**
- * Application Service or Command Handler assign a unique process identity
- * 
- * @author ruecker
+ * @TODO: Implement
  *
  */
-public class OwnProcessManagerEventHandler extends EventHandler {
+public class CustomProcessManagerOrderEventHandler extends EventHandler {
 
   public boolean handleEvent(String type, String name, JsonObject event) {
 

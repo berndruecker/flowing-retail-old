@@ -21,13 +21,13 @@ import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
 
-public class OrderEventConsumerCamunda extends EventHandler {
+public class CamundaClassicOrderEventHandler extends EventHandler {
 
   private ProcessEngine engine;
   private OrderRepository orderRepository = OrderRepository.instance;
   private org.h2.tools.Server h2Server;
 
-  public OrderEventConsumerCamunda() {
+  public CamundaClassicOrderEventHandler() {
     init();
   }
 
