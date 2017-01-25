@@ -21,3 +21,12 @@ You can query all topics by:
 
 ```kafka-topics.sh --list --zookeeper localhost:2181
 
+
+# Process implemented with Camunda BPM
+
+## Visibility via cockpit
+
+* Download Camunda Distribution of your choice
+* Configure Datasource to connect to: jdbc:h2:tcp://localhost:8092/mem:camunda
+* Best: Do not start job executor
+* Run it and you can use cockpit normally
