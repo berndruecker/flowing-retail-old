@@ -10,6 +10,8 @@ The "flowing retail example"
 starter/io.flowing.retail.command.SimpleStarter
 ```
 
+* Place an order via http://localhost:8085
+
 ## Channel Kafka
 
 * Install Kafka
