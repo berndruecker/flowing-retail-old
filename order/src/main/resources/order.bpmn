@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
   <bpmn:process id="order" name="Order" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_1qkr12o" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_0h9pj05" />
     <bpmn:parallelGateway id="ExclusiveGateway_0h9pj05">
@@ -25,7 +25,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_02hsain" sourceRef="Task_1eik3mm" targetRef="Task_17hnfpa" />
     <bpmn:sequenceFlow id="SequenceFlow_1hyy5mk" sourceRef="Task_17hnfpa" targetRef="EndEvent_1bijakr" />
-    <bpmn:serviceTask id="Task_07syogr" name="Reserve Goods" camunda:class="io.flowing.retail.commands.orchestration.camunda.ReserveGoodsAdapter">
+    <bpmn:serviceTask id="Task_07syogr" name="reserve goods" camunda:class="io.flowing.retail.commands.orchestration.camunda.ReserveGoodsAdapter">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="responseEventName">GoodsReserved</camunda:inputParameter>
@@ -35,15 +35,15 @@
       <bpmn:outgoing>SequenceFlow_05pu7lh</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_05pu7lh" sourceRef="Task_07syogr" targetRef="ExclusiveGateway_0riv3ls" />
-    <bpmn:serviceTask id="Task_07gau8d" name="DoPaymemt" camunda:class="io.flowing.retail.commands.orchestration.camunda.DoPaymentAdapter">
+    <bpmn:serviceTask id="Task_07gau8d" name="do payment" camunda:class="io.flowing.retail.commands.orchestration.camunda.DoPaymentAdapter">
       <bpmn:incoming>SequenceFlow_04bgjxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hmlupl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_1eik3mm" name="PickGoods" camunda:class="io.flowing.retail.commands.orchestration.camunda.PickGoodsAdapter">
+    <bpmn:serviceTask id="Task_1eik3mm" name="pick goods" camunda:class="io.flowing.retail.commands.orchestration.camunda.PickGoodsAdapter">
       <bpmn:incoming>SequenceFlow_0r2vi0e</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02hsain</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_17hnfpa" name="ShipGoods" camunda:class="io.flowing.retail.commands.orchestration.camunda.ShipGoodsAdapter">
+    <bpmn:serviceTask id="Task_17hnfpa" name="ship goods" camunda:class="io.flowing.retail.commands.orchestration.camunda.ShipGoodsAdapter">
       <bpmn:incoming>SequenceFlow_02hsain</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hyy5mk</bpmn:outgoing>
     </bpmn:serviceTask>

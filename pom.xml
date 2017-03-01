@@ -24,7 +24,6 @@
 		<module>shipping</module>
 
 		<module>bpmn-monitor</module>
-		<module>bpmn-autolayout</module>
 	</modules>
 
 	<build>

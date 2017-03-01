@@ -156,38 +156,38 @@ public class CamundaFlowBuilder implements FlowBuilder {
   }
 
   private ProcessBuilder initProcessBuilder() {
-    try {
-      // processBuilder = Bpmn.createProcess().id("Process_" +
-      // event).executable();
+//    try {
+       return Bpmn.createProcess(); //.id("Process_" + event).executable();
 
-      // BpmnModelInstance modelInstance = Bpmn.INSTANCE.doCreateEmptyModel();
-      // is protected - so do some reflection magic
-      Method method = Bpmn.INSTANCE.getClass().getDeclaredMethod("doCreateEmptyModel");
-      method.setAccessible(true);
-      BpmnModelInstance modelInstance = (BpmnModelInstance) method.invoke(Bpmn.INSTANCE);
-
-      // do it on our own (copied from Bpmn.createProcess()) in order to add bpmndi namespace needed by AutoLayout
-      Definitions definitions = modelInstance.newInstance(Definitions.class);
-      definitions.setTargetNamespace("http://io.flowing/sample");
-      definitions.getDomElement().registerNamespace("bpmn", BPMN20_NS);
-      definitions.getDomElement().registerNamespace("camunda", CAMUNDA_NS);
-      definitions.getDomElement().registerNamespace("bpmndi", BPMNDI_NS);
-      modelInstance.setDefinitions(definitions);
-      Process process = modelInstance.newInstance(Process.class);
-      definitions.addChildElement(process);
-
-      return process.builder();
-    } catch (Exception ex) {
-      throw new RuntimeException("Could not create process: " + ex.getMessage(), ex);
-    }
+//      // BpmnModelInstance modelInstance = Bpmn.INSTANCE.doCreateEmptyModel();
+//      // is protected - so do some reflection magic
+//      Method method = Bpmn.INSTANCE.getClass().getDeclaredMethod("doCreateEmptyModel");
+//      method.setAccessible(true);
+//      BpmnModelInstance modelInstance = (BpmnModelInstance) method.invoke(Bpmn.INSTANCE);
+//
+//      // do it on our own (copied from Bpmn.createProcess()) in order to add bpmndi namespace needed by AutoLayout
+//      Definitions definitions = modelInstance.newInstance(Definitions.class);
+//      definitions.setTargetNamespace("http://io.flowing/sample");
+//      definitions.getDomElement().registerNamespace("bpmn", BPMN20_NS);
+//      definitions.getDomElement().registerNamespace("camunda", CAMUNDA_NS);
+//      definitions.getDomElement().registerNamespace("bpmndi", BPMNDI_NS);
+//      modelInstance.setDefinitions(definitions);
+//      Process process = modelInstance.newInstance(Process.class);
+//      definitions.addChildElement(process);
+//
+//      return process.builder();
+//    } catch (Exception ex) {
+//      throw new RuntimeException("Could not create process: " + ex.getMessage(), ex);
+//    }
   }
 
   public String getFlowBpmnXml() {
-    String xmlWithoutLayout = Bpmn.convertToString(modelInstance);   
-    xmlWithoutLayout = addNamespacePrefix(xmlWithoutLayout);
-    String xmlWithLayout = new AutoLayout().doAutoLayout(xmlWithoutLayout);    
-    xmlWithLayout = xmlWithLayout.replaceAll("<bpmndi:BPMNPlane id=\"BPMNPlane_1\">", "<bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\""+processId+"\">");
-    return xmlWithLayout;    
+    String xmlWithoutLayout = Bpmn.convertToString(modelInstance);
+    return xmlWithoutLayout;
+//    xmlWithoutLayout = addNamespacePrefix(xmlWithoutLayout);
+//    String xmlWithLayout = new AutoLayout().doAutoLayout(xmlWithoutLayout);    
+//    xmlWithLayout = xmlWithLayout.replaceAll("<bpmndi:BPMNPlane id=\"BPMNPlane_1\">", "<bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\""+processId+"\">");
+//    return xmlWithLayout;    
   }
 
   /**
