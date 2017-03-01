@@ -42,4 +42,20 @@
 			<version>0.10.1.0</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+				<skip>false</skip>
+					<mainClass>io.flowing.retail.SimpleStarter</mainClass>
+					<arguments>
+						<argument>kafka</argument>
+						<argument>camunda</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

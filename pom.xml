@@ -27,7 +27,7 @@
 	</modules>
 
 	<build>
-		<defaultGoal>clean install</defaultGoal>
+		<defaultGoal>clean install</defaultGoal>		
 	</build>
 
 </project>
