@@ -36,15 +36,15 @@ Now there are a couple of options you can choose of when running / inspecting th
 
 You can choose between:
 
-* [Apache Kafka](http://kafka.apache.org/) *default* as event bus.
-* [RabbitMQ](https://www.rabbitmq.com/) as AMQP messaging system.
+* [Apache Kafka](http://kafka.apache.org/) as event bus (option ```kafka```, *default*).
+* [RabbitMQ](https://www.rabbitmq.com/) as AMQP messaging system (option ```rabbit```).
 
 ### Long running processes
 
 In order to support [long running processes](xxx) there are multiple options, which are very interessting to compare:
 
-* Domain entities store state (Option ```entity```)
-* [Camunda](http://camunda.org/) *default* workflow engine orchestrates using BPMN models (option ```camunda```)
+* Domain entities store state (option ```entity```)
+* [Camunda](http://camunda.org/) workflow engine orchestrates using BPMN models (option ```camunda```, *default*)
 * [Camunda](http://camunda.org/) workflow engine orchestrates using a technical DSL (option ```camunda-dsl```)
 
 Note that every component does its own parts of the overall order process. As an example this is illustrated using BPMN and showing the Order and Payment Service with their processes:
@@ -113,13 +113,4 @@ You can inspect what's going on using Cockpit:
 * Configure Datasource to connect to: jdbc:h2:tcp://localhost:8092/mem:camunda
 * Best: Do not start job executor
 * Run it and you can use cockpit normally
-
-
-# OLD CONTENT
-
-## Channel Kafka
-
-* Install Kafka
-* Start Kafka
-
 
