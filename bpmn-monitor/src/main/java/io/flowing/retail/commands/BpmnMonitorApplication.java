@@ -10,9 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.camunda.consulting.util.LicenseHelper;
 import com.camunda.consulting.util.UserGenerator;
 
-import io.flowing.retail.adapter.ChannelStartup;
-import io.flowing.retail.adapter.kafka.KafkaChannelConsumer;
-import io.flowing.retail.adapter.kafka.KafkaSender;
+import io.flowing.retail.adapter.FlowingStartup;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -20,11 +18,7 @@ import io.flowing.retail.adapter.kafka.KafkaSender;
 public class BpmnMonitorApplication  {
 
   public static void main(String... args) {
-    ChannelStartup.startup( //
-        "BPMN_MONITOR", //
-        new KafkaSender(), //
-        new KafkaChannelConsumer("bpmn-monitor"), //
-        new BpmnMonitorEventConsumer());
+    FlowingStartup.startup("bpmn-monitor", new BpmnMonitorEventConsumer(), args);
 
     SpringApplication.run(BpmnMonitorApplication.class, args);
 

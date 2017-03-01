@@ -1,12 +1,7 @@
 package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
-import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMN20_NS;
-import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.BPMNDI_NS;
-import static org.camunda.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_NS;
-
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -19,8 +14,6 @@ import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.builder.AbstractFlowNodeBuilder;
 import org.camunda.bpm.model.bpmn.builder.ProcessBuilder;
 import org.camunda.bpm.model.bpmn.impl.BpmnModelConstants;
-import org.camunda.bpm.model.bpmn.instance.Definitions;
-import org.camunda.bpm.model.bpmn.instance.Process;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaField;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaString;
 import org.camunda.bpm.model.xml.impl.util.ModelIoException;
@@ -31,7 +24,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLFilterImpl;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import io.flowing.bpmn.autolayout.AutoLayout;
 import io.flowing.retail.order.flow.camunda.dsl.commons.EventInput;
 import io.flowing.retail.order.flow.camunda.dsl.commons.FlowBuilder;
 import io.flowing.retail.order.flow.camunda.dsl.commons.Registry;

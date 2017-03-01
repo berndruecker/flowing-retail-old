@@ -1,21 +1,25 @@
 package io.flowing.retail.order;
 
-import io.flowing.retail.adapter.ChannelStartup;
-import io.flowing.retail.adapter.kafka.KafkaChannelConsumer;
-import io.flowing.retail.adapter.kafka.KafkaSender;
+import java.util.Arrays;
+
+import io.flowing.retail.adapter.EventHandler;
+import io.flowing.retail.adapter.FlowingStartup;
+import io.flowing.retail.order.flow.camunda.classic.CamundaClassicOrderEventHandler;
 import io.flowing.retail.order.flow.camunda.dsl.CamundaDslOrderEventHandler;
+import io.flowing.retail.order.flow.entitystate.EntityStateOrderEventHandler;
 
 public class OrderApplication {
 
   public static void main(String[] args) throws Exception {
-    // Select type of orchestration
-//    OrderService.instance = new OrderServiceBusinessModelOrchestration();
+    EventHandler eventHandler = null;
+    if (Arrays.asList(args).contains("entity")) {
+      eventHandler = new EntityStateOrderEventHandler();
+    } else if (Arrays.asList(args).contains("camunda-dsl")) {
+      eventHandler = new CamundaDslOrderEventHandler();
+    } else { // Arrays.asList(args).contains("camunda") = default
+      eventHandler = new CamundaClassicOrderEventHandler();
+    }
 
-    ChannelStartup.startup( //
-        "ORDER", //
-        new KafkaSender(), //
-        new KafkaChannelConsumer("order"), //
-        new CamundaDslOrderEventHandler()); 
+    FlowingStartup.startup("order", eventHandler, args);
   }
-
 }

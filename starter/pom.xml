@@ -34,5 +34,12 @@
 			<artifactId>flowing-retail-shipping</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<!-- Kafka Server to be able to start it up without external setup -->
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka_2.11</artifactId>
+			<version>0.10.1.0</version>
+		</dependency>
 	</dependencies>
 </project>

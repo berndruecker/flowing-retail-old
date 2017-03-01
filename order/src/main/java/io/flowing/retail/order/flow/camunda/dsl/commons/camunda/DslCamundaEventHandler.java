@@ -1,22 +1,9 @@
 package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
@@ -25,23 +12,11 @@ import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
-import org.camunda.bpm.model.bpmn.Bpmn;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.impl.BpmnModelConstants;
-import org.camunda.bpm.model.xml.impl.util.ModelIoException;
-import org.camunda.bpm.model.xml.instance.DomDocument;
 import org.h2.tools.Server;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLFilterImpl;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.camunda.consulting.util.LicenseHelper;
 import com.camunda.consulting.util.UserGenerator;
 
-import io.flowing.bpmn.autolayout.AutoLayout;
 import io.flowing.retail.adapter.EventHandler;
 import io.flowing.retail.order.domain.Customer;
 import io.flowing.retail.order.domain.Order;
