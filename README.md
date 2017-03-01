@@ -19,7 +19,7 @@ Key facts:
 
 Flowing retail simulates a very easy order processing system. The business logic is separated into the following microservices:
 
-![Microservices](docs/microservices.png)
+![Microservices](docs/services.png)
 
 * The core domains communicate via messages with each other.
 * Messages might contain *events* (blue in the following picture) or *commands* (red)
@@ -58,7 +58,7 @@ Note that every component does its own parts of the overall order process. As an
 * Run a full maven build
 
 ```
-mvn package
+mvn install
 ```
 
 * Start all components by in one Java process

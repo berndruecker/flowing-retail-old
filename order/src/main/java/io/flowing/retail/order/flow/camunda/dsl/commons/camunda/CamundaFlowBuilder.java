@@ -1,28 +1,11 @@
 package io.flowing.retail.order.flow.camunda.dsl.commons.camunda;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.builder.AbstractFlowNodeBuilder;
 import org.camunda.bpm.model.bpmn.builder.ProcessBuilder;
-import org.camunda.bpm.model.bpmn.impl.BpmnModelConstants;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaField;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaString;
-import org.camunda.bpm.model.xml.impl.util.ModelIoException;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLFilterImpl;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import io.flowing.retail.order.flow.camunda.dsl.commons.EventInput;
 import io.flowing.retail.order.flow.camunda.dsl.commons.FlowBuilder;
@@ -40,7 +23,7 @@ public class CamundaFlowBuilder implements FlowBuilder {
 
   public CamundaFlowBuilder(String flowName) {
     processId = "Process_" + flowName;
-    
+
     processBuilder = initProcessBuilder();
     processBuilder.id(processId).executable();
   }
@@ -148,82 +131,11 @@ public class CamundaFlowBuilder implements FlowBuilder {
   }
 
   private ProcessBuilder initProcessBuilder() {
-//    try {
-       return Bpmn.createProcess(); //.id("Process_" + event).executable();
-
-//      // BpmnModelInstance modelInstance = Bpmn.INSTANCE.doCreateEmptyModel();
-//      // is protected - so do some reflection magic
-//      Method method = Bpmn.INSTANCE.getClass().getDeclaredMethod("doCreateEmptyModel");
-//      method.setAccessible(true);
-//      BpmnModelInstance modelInstance = (BpmnModelInstance) method.invoke(Bpmn.INSTANCE);
-//
-//      // do it on our own (copied from Bpmn.createProcess()) in order to add bpmndi namespace needed by AutoLayout
-//      Definitions definitions = modelInstance.newInstance(Definitions.class);
-//      definitions.setTargetNamespace("http://io.flowing/sample");
-//      definitions.getDomElement().registerNamespace("bpmn", BPMN20_NS);
-//      definitions.getDomElement().registerNamespace("camunda", CAMUNDA_NS);
-//      definitions.getDomElement().registerNamespace("bpmndi", BPMNDI_NS);
-//      modelInstance.setDefinitions(definitions);
-//      Process process = modelInstance.newInstance(Process.class);
-//      definitions.addChildElement(process);
-//
-//      return process.builder();
-//    } catch (Exception ex) {
-//      throw new RuntimeException("Could not create process: " + ex.getMessage(), ex);
-//    }
+    return Bpmn.createProcess(); // .id("Process_" + event).executable();
   }
 
   public String getFlowBpmnXml() {
-    String xmlWithoutLayout = Bpmn.convertToString(modelInstance);
-    return xmlWithoutLayout;
-//    xmlWithoutLayout = addNamespacePrefix(xmlWithoutLayout);
-//    String xmlWithLayout = new AutoLayout().doAutoLayout(xmlWithoutLayout);    
-//    xmlWithLayout = xmlWithLayout.replaceAll("<bpmndi:BPMNPlane id=\"BPMNPlane_1\">", "<bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\""+processId+"\">");
-//    return xmlWithLayout;    
-  }
-
-  /**
-   * Add the namespace prefix exactly like this to get AutoLayout to work correctly
-   * (hack! See https://github.com/bpmn-io/bpmn-moddle-auto-layout/blob/master/lib/AutoLayout.js#L29)
-   */
-  private String addNamespacePrefix(String xmlWithoutLayout) {
-    try {
-      Transformer transformer = TransformerFactory.newInstance().newTransformer();
-      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-      // http://stackoverflow.com/questions/13501907/adding-namespace-prefix-xml-string-using-xml-dom
-      XMLReader xmlReader = new XMLFilterImpl(XMLReaderFactory.createXMLReader()) {
-        String namespace = BpmnModelConstants.BPMN20_NS;
-        String pref = "bpmn:";
-
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-          if (uri.equals(namespace)) {
-            super.startElement(namespace, localName, pref + qName, atts);
-          } else {
-            super.startElement(uri, localName, qName, atts);            
-          }
-        }
-
-        @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-          if (uri.equals(namespace)) {
-            super.endElement(namespace, localName, pref + qName);
-          } else {
-            super.endElement(uri, localName, qName);            
-          }
-        }
-    };
-    StringWriter s = new StringWriter();
-    transformer.transform(new SAXSource(xmlReader, new InputSource(new StringReader(xmlWithoutLayout))), new StreamResult(s));
-    xmlWithoutLayout = s.toString();   
-     
-    } catch (Exception e) {
-      throw new ModelIoException("Unable to transform XML: " + e.getMessage(), e);
-    }
-    return xmlWithoutLayout;
+    return Bpmn.convertToString(modelInstance);
   }
 
   @Override
@@ -235,5 +147,5 @@ public class CamundaFlowBuilder implements FlowBuilder {
   public FlowBuilder correlationPartner(String... partnerCorrelationVariableName) {
     // TODO Auto-generated method stub
     return this;
-  }  
+  }
 }
