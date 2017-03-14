@@ -14,8 +14,6 @@ public abstract class EventHandler {
   public static EventHandler instance = null;
 
   public void handleEvent(String eventAsJson) {
-    System.out.println("-");
-
     JsonReader jsonReader = Json.createReader(new StringReader(eventAsJson));
     JsonObject event = jsonReader.readObject();
     jsonReader.close();
@@ -28,6 +26,7 @@ public abstract class EventHandler {
       transactionId = event.getString("transactionId");
     }
 
+    System.out.println("[" + this.getClass().getSimpleName() + "] Received: " + type + " " + name);
     try {
       
       boolean handled = handleEvent(type, name, transactionId, event);

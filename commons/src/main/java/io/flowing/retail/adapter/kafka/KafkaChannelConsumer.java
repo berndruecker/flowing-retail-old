@@ -47,6 +47,7 @@ public class KafkaChannelConsumer extends ChannelConsumer {
     private Object clientId;
 
     public KafkaConsumerThread(String groupId, Object clientId) {
+      super("kafka-consumer-" + groupId);
       this.groupId = groupId;
       this.clientId = clientId;
     }

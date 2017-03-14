@@ -1,11 +1,12 @@
-package io.flowing.retail.payment.application;
+package io.flowing.retail.payment.flow.entity;
 
 import javax.json.JsonObject;
 
 import io.flowing.retail.adapter.EventHandler;
+import io.flowing.retail.payment.application.PaymentEventProducer;
 import io.flowing.retail.payment.domain.PaymentService;
 
-public class PaymentEventConsumer extends EventHandler {
+public class EntityStatePaymentEventHandler extends EventHandler {
 
   private PaymentEventProducer eventProducer = new PaymentEventProducer();
 
@@ -21,8 +22,8 @@ public class PaymentEventConsumer extends EventHandler {
       if (PaymentService.instance.processPayment(customerAccountDetails, refId, amount)) {
         // I skip a separate service doing the event publishing
         eventProducer.publishEventPaymentReceivedEvent(transactionId, refId, reason);
-      } else { // no stock
-        eventProducer.publishEventPaymentErrorEvent(transactionId, refId, reason);
+      } else { 
+        eventProducer.publishEventPaymentFailedEvent(transactionId, refId, reason);
       }
     } else {
       return false;

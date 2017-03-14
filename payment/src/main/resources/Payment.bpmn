@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
-  <bpmn:process id="Payment" name="Flowing Payment" isExecutable="true">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.1">
+  <bpmn:process id="Payment" name="Payment" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_10hm6pn" name="Bill Credit Card" camunda:expression="#{true}">
       <bpmn:incoming>SequenceFlow_0wxm9c0</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0si7w2m</bpmn:incoming>
@@ -30,11 +30,17 @@
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="SequenceFlow_001tvmf" sourceRef="BoundaryEvent_025mscv" targetRef="EndEvent_1no2aoc" />
     <bpmn:endEvent id="EndEvent_1no2aoc" name="Payment failed">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="io.flowing.retail.payment.flow.camunda.PaymentFailedAdapter" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_001tvmf</bpmn:incoming>
       <bpmn:messageEventDefinition />
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_064rfmt" sourceRef="ServiceTask_10hm6pn" targetRef="EndEvent_0769is9" />
     <bpmn:endEvent id="EndEvent_0769is9" name="Payment received">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="io.flowing.retail.payment.flow.camunda.PaymentCompletedAdapter" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_064rfmt</bpmn:incoming>
       <bpmn:messageEventDefinition />
     </bpmn:endEvent>

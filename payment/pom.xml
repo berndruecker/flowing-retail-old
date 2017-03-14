@@ -11,5 +11,32 @@
 			<artifactId>flowing-retail-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- Camunda engine including H2 database -->
+		<dependency>
+			<groupId>org.camunda.bpm</groupId>
+			<artifactId>camunda-engine</artifactId>
+			<!-- required >= 7.7 to leverage auto layout, see https://blog.camunda.org/post/2017/02/camunda-bpm-770-alpha1-released/ -->
+			<version>7.6.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+					<!-- uses Spring 3 as compile dependency, conflicts with Spring version 
+						of Spring Boot -->
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.camunda.consulting.util</groupId>
+			<artifactId>camunda-util-demo-support</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.168</version>
+		</dependency>
+		
 	</dependencies>
 </project>
