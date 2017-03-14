@@ -27,7 +27,7 @@ function newEventReceived(event) {
 
     eventsPerTransaction[jsTransactionId].push(event);
     $('td[id^="'+jsTransactionId+'"]').append(        
-        '<div class="alert alert-info">'+event.type+': '+event.name+'</div>'
+        '<div class="alert alert-info">'+event.type+': '+event.name+' (from '+event.sender+')</div>'
     );
 }
 

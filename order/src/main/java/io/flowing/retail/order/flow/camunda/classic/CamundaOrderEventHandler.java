@@ -3,13 +3,10 @@ package io.flowing.retail.order.flow.camunda.classic;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import org.camunda.bpm.BpmPlatform;
-import org.camunda.bpm.engine.MismatchingMessageCorrelationException;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
-import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 import org.camunda.bpm.engine.variable.VariableMap;
@@ -46,84 +43,61 @@ public class CamundaOrderEventHandler extends EventHandler {
       orderRepository.persistOrder(order);
       variables.put("orderId", order.getId());
       variables.put("transactionId", transactionId);
-
-      // handleOrderPlaced(correlationId, order);
-      // return true;
-      // } else {
+      
+      engine.getRuntimeService().startProcessInstanceByKey("order", transactionId, variables);
+      
+      return true;
+    } else {
+  
+      // Currently the transaction is NOT used for correlation, as we can assume
+      // to hit some legacy system some time which is not able to handle it
+      // That's why we only use it for tracking / monitoring purposes
+  
+      // Correlate by possible ids in this priority
+      VariableMap correlationKeys = Variables.createVariables();
+      if (event.get("orderId") != null) {
+        correlationKeys.put("orderId", event.getString("orderId"));
+      } else if (event.get("refId") != null) {
+        correlationKeys.put("orderId", event.getString("refId"));
+      } else if (event.get("pickId") != null) {
+        correlationKeys.put("pickId", event.getString("pickId"));
+      } else if (event.get("shipmentId") != null) {
+        correlationKeys.put("shipmentId", event.getString("shipmentId"));
+      }
+  
+      // add all possible additional correlation keys as variables to the flow
+      if (event.get("pickId") != null) {
+        variables.putValue("pickId", event.getString("pickId"));
+      }
+      if (event.get("shipmentId") != null) {
+        variables.putValue("shipmentId", event.getString("shipmentId"));
+      }
+  
+      return correlateResponseEvent(name, correlationKeys, variables);
     }
-
-    // Currently the transaction is NOT used for correlation, as we can assume
-    // to hit some legacy system some time which is not able to handle it
-    // That's why we only use it for tracking / monitoring purposes
-
-    // Correlate by possible ids in this priority
-    VariableMap correlationKeys = Variables.createVariables();
-    if (event.get("orderId") != null) {
-      correlationKeys.put("orderId", event.getString("orderId"));
-    } else if (event.get("refId") != null) {
-      correlationKeys.put("orderId", event.getString("refId"));
-    } else if (event.get("pickId") != null) {
-      correlationKeys.put("pickId", event.getString("pickId"));
-    } else if (event.get("shipmentId") != null) {
-      correlationKeys.put("shipmentId", event.getString("shipmentId"));
-    }
-
-    // add all possible additional correlation keys as variables to the flow
-    if (event.get("pickId") != null) {
-      variables.putValue("pickId", event.getString("pickId"));
-    }
-    if (event.get("shipmentId") != null) {
-      variables.putValue("shipmentId", event.getString("shipmentId"));
-    }
-
-    return correlateResponseEvent(name, correlationKeys, variables);
-    // }
   }
-  //
-  // public void handleOrderPlaced(String correlationId, Order order) {
-  // // "Persist" order
-  // orderRepository.persistOrder(order);
-  //
-  // // Start workflow for order
-  // engine.getRuntimeService().startProcessInstanceByKey( //
-  // "order",
-  // Variables.createVariables() //
-  // .putValue("correlationId", correlationId) //
-  // .putValue("orderId", order.getId()) //
-  // );
-  // }
 
   public boolean correlateResponseEvent(String eventName, VariableMap correlationKeys, VariableMap variables) {
     MessageCorrelationBuilder correlation = engine.getRuntimeService().createMessageCorrelation(eventName);
+    ExecutionQuery query = engine.getRuntimeService().createExecutionQuery().messageEventSubscriptionName(eventName);
+    
     for (String key : correlationKeys.keySet()) {
       correlation.processInstanceVariableEquals(key, correlationKeys.get(key));
+      query.processVariableValueEquals(key, correlationKeys.get(key));
     }
-    correlation.setVariables(variables);
-    try {
-      correlation.correlateWithResult();
-    } catch (MismatchingMessageCorrelationException ex) {
+    
+    // if nobody waits for this event we consider it not to be for us
+    if (query.count()==0) {
       return false;
     }
+    
+    // otherwise correlate it
+    correlation.setVariables(variables);
+    correlation.correlateWithResult();
     return true;
-
-    //
-    // ExecutionQuery query = engine.getRuntimeService().createExecutionQuery()
-    // //
-    // .variableValueEquals("responseEventName", eventName);
-    //
-    // for (String key : correlationKeys.keySet()) {
-    // query.processVariableValueEquals(key, correlationKeys.get(key));
-    // }
-    //
-    // if (query.count() == 0) {
-    // return false;
-    // }
-    //
-    // Execution execution = query.singleResult();
-    // engine.getRuntimeService().signal(execution.getId(), variables);
-    // return true;
   }
 
+  
   private Order parseOrder(JsonObject orderJson) {
     Order order = new Order();
 

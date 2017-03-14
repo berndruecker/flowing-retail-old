@@ -39,7 +39,7 @@ public class CamundaPaymentEventHandler extends EventHandler {
           .putValue("reason", reason) //
           .putValue("amount", amount);
 
-      engine.getRuntimeService().startProcessInstanceByKey("Payment", variables);
+      engine.getRuntimeService().startProcessInstanceByKey("Payment", transactionId, variables);
       return true;
     } else {
       return false;
