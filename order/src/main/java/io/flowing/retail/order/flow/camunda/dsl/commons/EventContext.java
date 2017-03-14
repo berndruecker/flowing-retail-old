@@ -34,10 +34,11 @@ public class EventContext {
     return incoming;
   }
 
-  public JsonObjectBuilder outgoing(String type, String name) {
+  public JsonObjectBuilder outgoing(String type, String name, String transactionId) {
     outgoing = Json.createObjectBuilder() //
         .add("type", type)//
-        .add("name", name);
+        .add("name", name)//
+        .add("transactionId", transactionId);
     return outgoing;
   }
   

@@ -9,10 +9,17 @@ public class Order {
   protected String id = UUID.randomUUID().toString();
   protected Customer customer = new Customer(); 
   protected List<OrderItem> items = new ArrayList<OrderItem>();
-  private int totalSum = 0;
 
   public void addItem(OrderItem i) {
     items.add(i);
+  }
+  
+  public int getTotalSum() {
+    int sum = 0;
+    for (OrderItem orderItem : items) {
+      sum += orderItem.getAmount();
+    }
+    return sum;
   }
   
   public String getId() {
@@ -28,13 +35,6 @@ public class Order {
   }
 
 
-  public int getTotalSum() {
-    return totalSum;
-  }
-
-  public void setTotalSum(int totalSum) {
-    this.totalSum = totalSum;
-  }
  
   @Override
   public String toString() {
@@ -48,5 +48,7 @@ public class Order {
   public void setCustomer(Customer customer) {
     this.customer = customer;
   }
+
+
   
 }

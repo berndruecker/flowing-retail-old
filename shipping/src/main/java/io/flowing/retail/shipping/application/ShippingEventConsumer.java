@@ -10,7 +10,7 @@ public class ShippingEventConsumer extends EventHandler {
   private ShippingEventProducer eventProducer = new ShippingEventProducer();
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     if ("Command".equals(type) && "ShipGoods".equals(name)) {
       String pickId = event.getString("pickId");
       String logisticsProvider = event.getString("logisticsProvider");
@@ -19,9 +19,9 @@ public class ShippingEventConsumer extends EventHandler {
 
       String shippingId = ShippingService.instance.createShipment(pickId, recipientName, recipientAddress, logisticsProvider);
       if (shippingId != null) {
-        eventProducer.publishEventGoodsShipped(pickId, shippingId);
+        eventProducer.publishEventGoodsShipped(transactionId, pickId, shippingId);
       } else {
-        eventProducer.publishEventShipmentError(pickId);
+        eventProducer.publishEventShipmentError(transactionId, pickId);
       }
       return true;
     } else {

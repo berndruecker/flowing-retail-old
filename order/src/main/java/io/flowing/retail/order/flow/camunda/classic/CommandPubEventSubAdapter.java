@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.camunda.bpm.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import org.camunda.bpm.engine.impl.event.EventType;
+import org.camunda.bpm.engine.impl.persistence.entity.EventSubscriptionEntity;
+import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
 import org.camunda.bpm.engine.impl.pvm.delegate.ActivityExecution;
+import org.camunda.bpm.engine.impl.pvm.process.ActivityImpl;
+import org.camunda.bpm.engine.impl.pvm.runtime.LegacyBehavior;
 
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderRepository;
@@ -36,6 +41,14 @@ public class CommandPubEventSubAdapter extends AbstractBpmnActivityBehavior {
 
     // leave the service task activity:
     leave(execution);
+  }
+  
+  protected void addMessageSubscription(final ActivityExecution execution, String eventName) {
+    ExecutionEntity executionEntity = (ExecutionEntity)execution;
+    EventSubscriptionEntity eventSubscriptionEntity = new EventSubscriptionEntity(executionEntity, EventType.MESSAGE);
+    eventSubscriptionEntity.setEventName(eventName);
+    eventSubscriptionEntity.setActivity(executionEntity.getActivity());
+    eventSubscriptionEntity.insert();
   }
 
 }

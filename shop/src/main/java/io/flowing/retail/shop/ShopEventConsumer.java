@@ -7,7 +7,7 @@ import io.flowing.retail.adapter.EventHandler;
 public class ShopEventConsumer extends EventHandler {
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     // we are not yet interested in any events
     return false;
   }

@@ -1,7 +1,5 @@
 package io.flowing.retail.order.flow.entitystate;
 
-import java.util.Collection;
-
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -11,77 +9,21 @@ import io.flowing.retail.order.domain.Customer;
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
-import io.flowing.retail.order.flow.entitystate.ExtendedOrder.GoodsDeliveryStatus;
+import io.flowing.retail.order.flow.entitystate.OrderWithState.GoodsDeliveryStatus;
+
 
 public class EntityStateOrderEventHandler extends EventHandler {
   
   private OrderEventProducer eventProducer = new OrderEventProducer();
   private OrderRepository orderRepository = OrderRepository.instance;
   
-  public void processOrder(String correlationId, Order order) {
-    ExtendedOrder extendedOrder = new ExtendedOrder(order);
-    System.out.println("order will be processed: " + extendedOrder);
-    
-    // "Persist" order
-    orderRepository.persistOrder(extendedOrder);
-
-    eventProducer.publishEventOrderCreated(correlationId, order);
-    
-    // issue ReserveGoodsCommand  
-    eventProducer.publishCommandReserveGoods(order);
-    // issue DoPaymentCommand
-    eventProducer.publishCommandDoPayment(order);
-  }
-
-  public void processGoodsReservation(String orderId) { 
-    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
-    synchronized (order) { // TODO: double check
-      order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_RESERVED);
-      checkOrderReadyForPicking(order);
-    }
-  }
-
-  public void processPaymentReceived(String orderId) {    
-    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
-    synchronized (order) {
-      order.setPaymentReceived(true);
-      checkOrderReadyForPicking(order);      
-    }
-  }
-
-  private void checkOrderReadyForPicking(ExtendedOrder order) {
-    if (order.isPaymentReceived() && order.getDeliveryStatus()==GoodsDeliveryStatus.GOODS_RESERVED) {
-      eventProducer.publishCommandPickGoods(order);
-    }
-  }
-
-  public void processGoodsPicked(String orderId, String pickId) {    
-    ExtendedOrder order = (ExtendedOrder) orderRepository.getOrder(orderId);
-    order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_PICKED);
-    order.setPickId(pickId);
-    eventProducer.publishCommandShipGoods(order, pickId);    
-  }
-
-  public boolean processGoodsShipped(String pickId, String shipmentId) {
-    for (ExtendedOrder order : (Collection<? extends ExtendedOrder>)orderRepository.findOrders()) {
-      if (pickId.equals(order.getPickId())) {        
-        order.setShipped(true);
-        // we ignore the shipmentId - as the order service is not interested
-        
-        eventProducer.publishEventOrderCompleted(order.getId());    
-        return true;
-      }
-    }
-    return false;
-  }
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     if ("Event".equals(type) && "OrderPlaced".equals(name)) {
-      String correlationId = event.getString("correlationId");
       Order order = parseOrder(event.getJsonObject("order"));
 
-      processOrder(correlationId, order);
+      processOrder(transactionId, order);
     } else if ("Event".equals(type) && "GoodsReserved".equals(name)) {
       String reason = event.getString("reason");
       if ("CustomerOrder".equals(reason)) {
@@ -123,6 +65,63 @@ public class EntityStateOrderEventHandler extends EventHandler {
       return false;
     }
     return true;
+  }
+  
+  public void processOrder(String transationId, Order order) {
+    OrderWithState extendedOrder = new OrderWithState(order);
+    extendedOrder.setTransactionId(transationId);
+    
+    // "Persist" order
+    orderRepository.persistOrder(extendedOrder);
+
+    eventProducer.publishEventOrderCreated(transationId, order);
+    
+    // issue ReserveGoodsCommand  
+    eventProducer.publishCommandReserveGoods(transationId, order);
+    // issue DoPaymentCommand
+    eventProducer.publishCommandDoPayment(transationId, order);
+  }
+
+  public void processGoodsReservation(String orderId) { 
+    OrderWithState order = orderRepository.getOrderWithState(orderId);
+    synchronized (order) { // TODO: double check
+      order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_RESERVED);
+      checkOrderReadyForPicking(order);
+    }
+  }
+
+  public void processPaymentReceived(String orderId) {    
+    OrderWithState order = orderRepository.getOrderWithState(orderId);
+    synchronized (order) {
+      order.setPaymentReceived(true);
+      checkOrderReadyForPicking(order);      
+    }
+  }
+
+  private void checkOrderReadyForPicking(OrderWithState order) {
+    if (order.isPaymentReceived() && order.getDeliveryStatus()==GoodsDeliveryStatus.GOODS_RESERVED) {
+      eventProducer.publishCommandPickGoods(order.getTransactionId(), order.asSimpleOrder());
+    }
+  }
+
+  public void processGoodsPicked(String orderId, String pickId) {    
+    OrderWithState order = orderRepository.getOrderWithState(orderId);
+    order.setDeliveryStatus(GoodsDeliveryStatus.GOODS_PICKED);
+    order.setPickId(pickId);
+    eventProducer.publishCommandShipGoods(order.getTransactionId(), order.asSimpleOrder(), pickId);    
+  }
+
+  public boolean processGoodsShipped(String pickId, String shipmentId) {
+    for (OrderWithState order : orderRepository.findOrdersWithState()) {
+      if (pickId.equals(order.getPickId())) {        
+        order.setShipped(true);
+        // we ignore the shipmentId - as the order service is not interested
+        
+        eventProducer.publishEventOrderCompleted(order.getTransactionId(), order.getId());    
+        return true;
+      }
+    }
+    return false;
   }
 
   private Order parseOrder(JsonObject orderJson) {

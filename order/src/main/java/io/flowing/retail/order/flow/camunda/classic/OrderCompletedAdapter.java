@@ -11,11 +11,11 @@ public class OrderCompletedAdapter implements JavaDelegate {
 
   public void execute(DelegateExecution execution) throws Exception {
     OrderEventProducer eventProducer = new OrderEventProducer();
+    
     Order order = OrderRepository.instance.getOrder((String)execution.getVariable("orderId")); 
+    String transactionId = (String)execution.getVariable("transactionId");
 
-    eventProducer.publishEventOrderCompleted(order.getId());
-    // Can response be faster than the current transaction?
-    // Kafka Client Commit?
+    eventProducer.publishEventOrderCompleted(transactionId, order.getId());
   }
 
 

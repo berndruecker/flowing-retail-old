@@ -22,10 +22,15 @@ public abstract class EventHandler {
 
     String type = event.getString("type");
     String name = event.getString("name");
+    
+    String transactionId = null;
+    if (event.containsKey("transactionId")) {
+      transactionId = event.getString("transactionId");
+    }
 
     try {
       
-      boolean handled = handleEvent(type, name, event);
+      boolean handled = handleEvent(type, name, transactionId, event);
       if (handled) {
         System.out.println("[" + this.getClass().getSimpleName() + "] Handled: " + type + " " + name + " " + eventAsJson);
       }else {
@@ -38,7 +43,7 @@ public abstract class EventHandler {
     }    
   }
 
-  public abstract boolean handleEvent(String type, String name, JsonObject event);
+  public abstract boolean handleEvent(String type, String name, String transactionId, JsonObject event);
 
   public String asString(JsonObject jsonObject) {
     StringWriter eventStringWriter = new StringWriter();

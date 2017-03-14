@@ -22,9 +22,10 @@ public class IssueEventAdapter implements JavaDelegate {
     
     String incomingEvent = (String) execution.getVariable("incomingEvent");
     Order order = OrderRepository.instance.getOrder((String)execution.getVariable("orderId")); 
-
+    String transactionId = (String) execution.getVariable("transactionId");
+    
     EventContext ctx = new EventContext(incomingEvent, order);
-    ctx.outgoing(type.getExpressionText(), name.getExpressionText());
+    ctx.outgoing(type.getExpressionText(), name.getExpressionText(), transactionId);
     
     eventInput.execute(ctx);
     

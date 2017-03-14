@@ -72,11 +72,10 @@ public abstract class DslCamundaEventHandler extends EventHandler {
   public abstract String defineFlow();
   
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     if ("Event".equals(type) && "OrderPlaced".equals(name)) { // flow builder
                                                               // could remember
                                                               // this somehow
-      String correlationId = event.getString("correlationId");
       Order order = parseOrder(event.getJsonObject("order"));
 
       // TODO: USe Callback from FlowBuilder
@@ -87,7 +86,7 @@ public abstract class DslCamundaEventHandler extends EventHandler {
       engine.getRuntimeService().startProcessInstanceByKey( //
           "Process_OrderPlaced",
           Variables.createVariables() //
-              .putValue("correlationId", correlationId) //
+              .putValue("correlationId", transactionId) //
               .putValue("orderId", order.getId()) //
               .putValue("incomingEvent", asString(event)) //
       );

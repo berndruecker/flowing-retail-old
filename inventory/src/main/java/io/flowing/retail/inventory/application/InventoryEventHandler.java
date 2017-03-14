@@ -15,7 +15,7 @@ public class InventoryEventHandler extends EventHandler {
   private InventoryEventProducer eventProducer = new InventoryEventProducer();
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     if ("Command".equals(type) && "ReserveGoods".equals(name)) {
       String refId = event.getString("refId");
       String reason = event.getString("reason");
@@ -24,9 +24,9 @@ public class InventoryEventHandler extends EventHandler {
 
       if (InventoryService.instance.reserveGoods(items, refId, reason, expirationDate)) {
         // I skip a separate service doing the event publishing
-        eventProducer.publishEventGoodsReserved(refId, reason);
+        eventProducer.publishEventGoodsReserved(transactionId, refId, reason);
       } else { // no stock
-        eventProducer.publishEventGoodsNotReserved(refId, reason);
+        eventProducer.publishEventGoodsNotReserved(transactionId, refId, reason);
       }
     } else if ("Command".equals(type) && "PickGoods".equals(name)) {
       String refId = event.getString("refId");
@@ -36,9 +36,9 @@ public class InventoryEventHandler extends EventHandler {
       String pickId = InventoryService.instance.pickItems(items, refId, reason);
       if (pickId != null) {
         // TODO: Maybe move in inventory service?
-        eventProducer.publishEventGoodsPicked(refId, reason, pickId);
+        eventProducer.publishEventGoodsPicked(transactionId, refId, reason, pickId);
       } else { // no stock
-        eventProducer.publishEventPickError(refId, reason);
+        eventProducer.publishEventPickError(transactionId, refId, reason);
       }
     } else {
       return false;

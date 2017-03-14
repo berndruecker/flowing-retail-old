@@ -8,8 +8,8 @@ import io.flowing.retail.adapter.EventProducer;
 
 public class ShopEventProducer extends EventProducer {
 
-  public void publishEventOrderPlaced(String correlationId, String customerId, ShoppingCart shoppingCart) {
-    JsonObjectBuilder event = createEventPayloadJson("OrderPlaced");
+  public void publishEventOrderPlaced(String transactionId, String customerId, ShoppingCart shoppingCart) {
+    JsonObjectBuilder event = createEventPayloadJson("OrderPlaced", transactionId);
 
     JsonArrayBuilder itemsArrayBuilder = Json.createArrayBuilder();
     for (Item item : shoppingCart.getItems()) {
@@ -18,7 +18,6 @@ public class ShopEventProducer extends EventProducer {
     }
 
     event //
-        .add("correlationId", correlationId) //
         .add("order", //
             Json.createObjectBuilder() //
                 .add("customerId", customerId) //

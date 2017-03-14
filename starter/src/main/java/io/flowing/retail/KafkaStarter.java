@@ -21,7 +21,7 @@ public class KafkaStarter {
     
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     File fileKafkaLogs = new File("data/kafka-logs");
     File fileZookeeperData = new File("data/zookeeper");
     File fileZookeeperDataLogs = new File("data/zookeeper-logs");
@@ -60,9 +60,9 @@ public class KafkaStarter {
     kafkaProperties.put("log.dirs",  fileKafkaLogs.getAbsolutePath());    
     
     final KafkaServerStartable kafka = KafkaServerStartable.fromProps(kafkaProperties);
+//    zookeeperThread.join();
     kafka.startup();
     
-//    zookeeperThread.join();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override

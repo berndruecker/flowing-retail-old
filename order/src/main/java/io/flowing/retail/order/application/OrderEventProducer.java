@@ -13,17 +13,16 @@ import io.flowing.retail.order.domain.OrderItem;
 
 public class OrderEventProducer extends EventProducer {
 
-  public void publishEventOrderCreated(String correlationId, Order order) {
-    JsonObjectBuilder json = createPayloadJson("Event", "OrderCreated");
+  public void publishEventOrderCreated(String transactionId, Order order) {
+    JsonObjectBuilder json = createPayloadJson("Event", "OrderCreated", transactionId);
     json //
-        .add("correlationId", correlationId) //
         .add("orderId", order.getId()) //
         .add("items", createJsonItemArray(order));
     send(json);
   }
   
-  public void publishCommandReserveGoods(Order order) {
-    JsonObjectBuilder json = createPayloadJson("Command", "ReserveGoods");
+  public void publishCommandReserveGoods(String transactionId, Order order) {
+    JsonObjectBuilder json = createPayloadJson("Command", "ReserveGoods", transactionId);
     json //
         .add("refId", order.getId()) //
         .add("reason", "CustomerOrder") //
@@ -32,8 +31,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishCommandDoPayment(Order order) {
-    JsonObjectBuilder json = createPayloadJson("Command", "DoPayment");
+  public void publishCommandDoPayment(String transactionId, Order order) {
+    JsonObjectBuilder json = createCommandPayloadJson("DoPayment", transactionId);
     json //
         .add("refId", order.getId()) //
         .add("reason", "CustomerOrder") //
@@ -41,8 +40,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishCommandPickGoods(Order order) {
-    JsonObjectBuilder json = createPayloadJson("Command", "PickGoods");
+  public void publishCommandPickGoods(String transactionId, Order order) {
+    JsonObjectBuilder json = createCommandPayloadJson("PickGoods", transactionId);
     json //
         .add("refId", order.getId()) //
         .add("reason", "CustomerOrder") //
@@ -50,8 +49,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishCommandShipGoods(Order order, String pickId) {
-    JsonObjectBuilder json = createPayloadJson("Command", "ShipGoods");
+  public void publishCommandShipGoods(String transactionId, Order order, String pickId) {
+    JsonObjectBuilder json = createCommandPayloadJson("ShipGoods", transactionId);
     json //
         .add("pickId", pickId) //
         .add("logisticsProvider", "DHL") // customer orders are always shipped
@@ -61,8 +60,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishEventOrderCompleted(String orderId) {
-    JsonObjectBuilder json = createPayloadJson("Event", "OrderCompleted");
+  public void publishEventOrderCompleted(String transactionId, String orderId) {
+    JsonObjectBuilder json = createEventPayloadJson("OrderCompleted", transactionId);
     json //
         .add("orderId", orderId);
     send(json);

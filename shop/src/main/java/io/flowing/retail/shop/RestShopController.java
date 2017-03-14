@@ -30,14 +30,14 @@ public class RestShopController {
     cart.addItem("article1", 5);
     cart.addItem("article2", 10);
     
-    String correlationId = UUID.randomUUID().toString();   
-    eventProducer.publishEventOrderPlaced(correlationId, customerId, cart);    
+    String transactionId = UUID.randomUUID().toString();   
+    eventProducer.publishEventOrderPlaced(transactionId, customerId, cart);    
     httpSession.removeAttribute("cart");
     
     // note that we cannot easily return an order id here - as everything is asynchronous
     // and blocking the client is not what we want.
     // but we return an own correlationId which can be used in the UI to show status maybe later
-    return "{correlationId: " + correlationId + "}";
+    return "{transactionId: " + transactionId + "}";
   }
 
   @RequestMapping(path = "/api/cart/item", method = PUT)

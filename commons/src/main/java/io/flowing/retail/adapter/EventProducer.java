@@ -17,18 +17,20 @@ public abstract class EventProducer {
     ChannelSender.instance.send(event);
   }
 
-  public JsonObjectBuilder createEventPayloadJson(String name) {
-    return createPayloadJson("Event", name);
+  public JsonObjectBuilder createEventPayloadJson(String name, String transactionId) {
+    return createPayloadJson("Event", name, transactionId);
   }
 
-  public JsonObjectBuilder createCommandPayloadJson(String name) {
-    return createPayloadJson("Command", name);
+  public JsonObjectBuilder createCommandPayloadJson(String name, String transactionId) {
+    return createPayloadJson("Command", name, transactionId);
   }
 
-  public JsonObjectBuilder createPayloadJson(String type, String name) {
+  public JsonObjectBuilder createPayloadJson(String type, String name, String transactionId) {
     return Json.createObjectBuilder() //
         .add("type", type)//
-        .add("name", name);
+        .add("name", name) //
+        .add("sender", this.getClass().getSimpleName()) //
+        .add("transactionId", transactionId);
   }
 
   public String asString(JsonObjectBuilder builder) {

@@ -10,7 +10,7 @@ public class PaymentEventConsumer extends EventHandler {
   private PaymentEventProducer eventProducer = new PaymentEventProducer();
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     if ("Command".equals(type) && "DoPayment".equals(name)) {
       String refId = event.getString("refId");
       String reason = event.getString("reason");
@@ -20,9 +20,9 @@ public class PaymentEventConsumer extends EventHandler {
 
       if (PaymentService.instance.processPayment(customerAccountDetails, refId, amount)) {
         // I skip a separate service doing the event publishing
-        eventProducer.publishEventPaymentReceivedEvent(refId, reason);
+        eventProducer.publishEventPaymentReceivedEvent(transactionId, refId, reason);
       } else { // no stock
-        eventProducer.publishEventPaymentErrorEvent(refId, reason);
+        eventProducer.publishEventPaymentErrorEvent(transactionId, refId, reason);
       }
     } else {
       return false;

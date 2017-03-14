@@ -2,20 +2,15 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
   <bpmn:process id="Payment" name="Flowing Payment" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_10hm6pn" name="Bill Credit Card" camunda:expression="#{true}">
-      <bpmn:incoming>SequenceFlow_0b8oe27</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0wxm9c0</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0si7w2m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_064rfmt</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:boundaryEvent id="BoundaryEvent_0s43v6m" name="Payment error occured" attachedToRef="ServiceTask_10hm6pn">
       <bpmn:outgoing>SequenceFlow_1me4ldb</bpmn:outgoing>
       <bpmn:errorEventDefinition errorRef="Error_1qxsin7" />
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0si7w2m" sourceRef="StartEvent_1" targetRef="Task_1brtnki" />
-    <bpmn:serviceTask id="Task_1brtnki" name="Load customer details" camunda:expression="#{true}">
-      <bpmn:incoming>SequenceFlow_0si7w2m</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0b8oe27</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0b8oe27" sourceRef="Task_1brtnki" targetRef="ServiceTask_10hm6pn" />
+    <bpmn:sequenceFlow id="SequenceFlow_0si7w2m" sourceRef="StartEvent_1" targetRef="ServiceTask_10hm6pn" />
     <bpmn:sequenceFlow id="SequenceFlow_096vlng" sourceRef="Task_0sdkq4x" targetRef="Task_1yuae6d" />
     <bpmn:sequenceFlow id="SequenceFlow_0wxm9c0" sourceRef="Task_1yuae6d" targetRef="ServiceTask_10hm6pn" />
     <bpmn:sequenceFlow id="SequenceFlow_1me4ldb" sourceRef="BoundaryEvent_0s43v6m" targetRef="Task_0sdkq4x" />
@@ -63,20 +58,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0si7w2m_di" bpmnElement="SequenceFlow_0si7w2m">
-        <di:waypoint xsi:type="dc:Point" x="67" y="49" />
-        <di:waypoint xsi:type="dc:Point" x="119" y="49" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="93" y="34" width="0" height="0" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_02glsco_di" bpmnElement="Task_1brtnki">
-        <dc:Bounds x="119" y="9" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0b8oe27_di" bpmnElement="SequenceFlow_0b8oe27">
-        <di:waypoint xsi:type="dc:Point" x="219" y="49" />
+        <di:waypoint xsi:type="dc:Point" x="188" y="49" />
         <di:waypoint xsi:type="dc:Point" x="262" y="49" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="241" y="24" width="0" height="0" />
+          <dc:Bounds x="225" y="34" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_096vlng_di" bpmnElement="SequenceFlow_096vlng">
@@ -143,9 +128,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1ilc2rt_di" bpmnElement="StartEvent_1">
-        <dc:Bounds x="31" y="31" width="36" height="36" />
+        <dc:Bounds x="152" y="31" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="13" y="67" width="71" height="36" />
+          <dc:Bounds x="134" y="67" width="72" height="36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

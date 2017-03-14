@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import io.flowing.retail.adapter.EventHandler;
 import io.flowing.retail.adapter.FlowingStartup;
-import io.flowing.retail.order.flow.camunda.classic.CamundaClassicOrderEventHandler;
+import io.flowing.retail.order.flow.camunda.classic.CamundaOrderEventHandler;
 import io.flowing.retail.order.flow.camunda.dsl.CamundaDslOrderEventHandler;
 import io.flowing.retail.order.flow.entitystate.EntityStateOrderEventHandler;
 
@@ -17,7 +17,7 @@ public class OrderApplication {
     } else if (Arrays.asList(args).contains("camunda-dsl")) {
       eventHandler = new CamundaDslOrderEventHandler();
     } else { // Arrays.asList(args).contains("camunda") = default
-      eventHandler = new CamundaClassicOrderEventHandler();
+      eventHandler = new CamundaOrderEventHandler();
     }
 
     FlowingStartup.startup("order", eventHandler, args);

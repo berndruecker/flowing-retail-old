@@ -6,16 +6,16 @@ import io.flowing.retail.adapter.EventProducer;
 
 public class PaymentEventProducer extends EventProducer {
 
-  public void publishEventPaymentReceivedEvent(String refId, String reason) {
-    JsonObjectBuilder json = createPayloadJson("Event", "PaymentReceived");
+  public void publishEventPaymentReceivedEvent(String transactionId, String refId, String reason) {
+    JsonObjectBuilder json = createEventPayloadJson("PaymentReceived", transactionId);
     json //
         .add("refId", refId) //
         .add("reason", reason);
     send(json);
   }
 
-  public void publishEventPaymentErrorEvent(String refId, String reason) {
-    JsonObjectBuilder json = createPayloadJson("Event", "PaymentError");
+  public void publishEventPaymentErrorEvent(String transactionId, String refId, String reason) {
+    JsonObjectBuilder json = createEventPayloadJson("PaymentError", transactionId);
     json //
         .add("refId", refId) //
         .add("reason", reason);
