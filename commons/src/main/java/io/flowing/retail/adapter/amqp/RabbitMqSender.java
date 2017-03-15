@@ -18,7 +18,7 @@ public class RabbitMqSender extends ChannelSender {
 
   private Channel channel;
 
-  public void send(String eventString) {
+  public void doSend(String eventString) {
     System.out.println("Sending event via RabbitMQ: " + eventString);
     try {
       channel.basicPublish("", QUEUE_NAME, null, eventString.getBytes("UTF-8"));

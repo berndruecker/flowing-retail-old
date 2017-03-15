@@ -3,8 +3,23 @@ package io.flowing.retail.adapter;
 public abstract class ChannelSender {
 
   public static ChannelSender instance = null;
+  public static long delay = 0;
 
-  public abstract void send(String content);
+  public abstract void doSend(String content);
+
+  /**
+   * call this method, sending might be delayed if a delay is configured
+   */
+  public void send(String content) {
+    if (delay > 0) {
+      try {
+        Thread.sleep(delay);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+    doSend(content);
+  }
 
   public static void startup(ChannelSender sender) {
     try {

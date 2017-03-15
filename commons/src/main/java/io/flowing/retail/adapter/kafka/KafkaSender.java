@@ -15,7 +15,7 @@ public class KafkaSender extends ChannelSender {
 
   private Producer<String, String> producer;
 
-  public void send(String eventString) {
+  public void doSend(String eventString) {
     System.out.println("Sending event via Kafka: " + eventString);
     producer.send(new ProducerRecord<String, String>(TOPIC_NAME, eventString));
   }

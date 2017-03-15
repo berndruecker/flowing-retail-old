@@ -60,7 +60,7 @@ public class KafkaChannelConsumer extends ChannelConsumer {
       configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-      configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
+//      configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
       
       configProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 

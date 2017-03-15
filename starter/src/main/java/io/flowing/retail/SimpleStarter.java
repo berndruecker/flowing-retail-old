@@ -2,6 +2,7 @@ package io.flowing.retail;
 
 import java.util.Arrays;
 
+import io.flowing.retail.adapter.ChannelSender;
 import io.flowing.retail.inventory.InventoryApplication;
 import io.flowing.retail.monitor.MonitorApplication;
 import io.flowing.retail.order.OrderApplication;
@@ -12,8 +13,8 @@ import io.flowing.retail.shop.ShopApplication;
 public class SimpleStarter {
 
   public static void main(String[] args) throws Exception {
-    // args = new String[] {"rabbit"};
-    args = new String[] {"camunda"};
+//    args = new String[] {"rabbit"};
+//    args = new String[] {"camunda"};
 //    args = new String[] {"camunda-dsl"};
 //    args = new String[] {"entity"};
     
@@ -21,6 +22,8 @@ public class SimpleStarter {
       // if not rabbit lets start up kafka
       KafkaStarter.main(args);
     }
+    
+    ChannelSender.delay = 100; // 100 ms
     
     ShopApplication.main(args);
     OrderApplication.main(args);

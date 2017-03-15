@@ -1,23 +1,21 @@
 <html>
-<sci
 
 <body>
-	<button onclick="placeOrder()">Place order</button>
+  Place your order: <br />
+  <img src="button.png" onclick="placeOrder()" style="width: 100px;"></img>
+  <div id="thanks"></div>
 </body>
 
 	<script type="text/javascript">
-
+    var count = 0;
 		function placeOrder() {
 			 $.ajax({
               url: "./api/cart/order?customerId=123",
               type: "put",
-              cache : false,
-              contentType: false,
-              processType : false,
-              processData : false,
               data: {}
           }).done(function(result) {
-            console.log(result);
+            count = count+1;
+            $('#thanks').html('Thank you for order #' + count + '.<br>Transaction id: <b>' + JSON.parse(result).transactionId + '</b>');
           })
 		}
 	</script>

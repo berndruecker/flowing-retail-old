@@ -22,7 +22,7 @@ function newEventReceived(event) {
     
     if (!eventsPerTransaction[jsTransactionId]) {
         eventsPerTransaction[jsTransactionId] = [];
-        $("#events").append('<tr><td>'+event.transactionId+'</td><td id="' + event.transactionId + '"></td></tr>');
+        $("#events").prepend('<tr><td>'+event.transactionId+'</td><td id="' + event.transactionId + '"></td></tr>');
     }
 
     eventsPerTransaction[jsTransactionId].push(event);
