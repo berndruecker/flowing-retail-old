@@ -22,9 +22,7 @@ Flowing retail simulates a very easy order processing system. The business logic
 ![Microservices](docs/services.png)
 
 * The core domains communicate via messages with each other.
-* Messages might contain *events* (blue in the following picture) or *commands* (red)
-
-![Events and Commands](docs/eventsAndCommands.png)
+* Messages might contain *events* or *commands*.
 
 This is the stable nucleus for flowing retail.
 
@@ -82,6 +80,8 @@ starter/io.flowing.retail.command.SimpleStarter
 ```
 
 * Now you can place an order via [http://localhost:8085](http://localhost:8085)
+
+# TODO ZONE
 
 ## Using Kafka
 
