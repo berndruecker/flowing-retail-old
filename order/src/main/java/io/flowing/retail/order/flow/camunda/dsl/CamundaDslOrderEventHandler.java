@@ -40,7 +40,7 @@ public class CamundaDslOrderEventHandler extends DslCamundaEventHandler {
         }).issueEvent("OrderCreated", (ctx) -> {
           ctx.outgoing() //
               .add("refId", ctx.order().getId()) //
-              .add("correlationId", ctx.incoming().getString("correlationId"));
+              .add("transactionId", ctx.incoming().getString("transactionId"));
         }).issueCommand("ReserveGoods", (ctx) -> {
           ctx.outgoing() //
               .add("refId", ctx.order().getId()) //

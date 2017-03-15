@@ -26,9 +26,20 @@ function newEventReceived(event) {
     }
 
     eventsPerTransaction[jsTransactionId].push(event);
-    $('td[id^="'+jsTransactionId+'"]').append(        
-        '<div class="alert alert-info">'+event.type+': '+event.name+' (from '+event.sender+')</div>'
-    );
+
+    var color = 'info';
+    if (event.type=='Command') {
+        color = 'danger'; // or 'warning'?
+    }
+    var html = 
+          '<div class="alert alert-'+color+'">'+event.type+': '+event.name+' (from '+event.sender+')'
+        //+ '<a label="Details" onclick="showEventDetails(\'test\')" data-toggle="modal" data-target="#myModal" class="btn btn-default table-row-btn"><span class="glyphicon glyphicon-eye-open"></span></a>'
+        + '</div>';
+    $('td[id^="'+jsTransactionId+'"]').append(html);
+}
+
+function showEventDetails(event) {
+    $('#eventDetails').html(event);
 }
 
 function connect() {

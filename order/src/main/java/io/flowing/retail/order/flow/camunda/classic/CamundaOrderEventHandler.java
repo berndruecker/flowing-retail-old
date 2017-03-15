@@ -36,9 +36,9 @@ public class CamundaOrderEventHandler extends EventHandler {
   }
 
   @Override
-  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
+  public boolean handleEvent(String type, String eventName, String transactionId, JsonObject event) {
     VariableMap variables = Variables.createVariables();
-    if ("Event".equals(type) && "OrderPlaced".equals(name)) {
+    if ("Event".equals(type) && "OrderPlaced".equals(eventName)) {
       // Currently special handling to also persist the order
 
       Order order = parseOrder(event.getJsonObject("order"));
@@ -57,16 +57,7 @@ public class CamundaOrderEventHandler extends EventHandler {
       // That's why we only use it for tracking / monitoring purposes
   
       // Correlate by possible ids in this priority
-      VariableMap correlationKeys = Variables.createVariables();
-      if (event.get("orderId") != null) {
-        correlationKeys.put("orderId", event.getString("orderId"));
-      } else if (event.get("refId") != null) {
-        correlationKeys.put("orderId", event.getString("refId"));
-      } else if (event.get("pickId") != null) {
-        correlationKeys.put("pickId", event.getString("pickId"));
-      } else if (event.get("shipmentId") != null) {
-        correlationKeys.put("shipmentId", event.getString("shipmentId"));
-      }
+      VariableMap correlationKeys = getCorrelationKeys(event);
   
       // add all possible additional correlation keys as variables to the flow
       if (event.get("pickId") != null) {
@@ -76,30 +67,39 @@ public class CamundaOrderEventHandler extends EventHandler {
         variables.putValue("shipmentId", event.getString("shipmentId"));
       }
   
-      return correlateResponseEvent(name, correlationKeys, variables);
+      MessageCorrelationBuilder correlation = engine.getRuntimeService().createMessageCorrelation(eventName);
+      ExecutionQuery query = engine.getRuntimeService().createExecutionQuery().messageEventSubscriptionName(eventName);
+      
+      for (String key : correlationKeys.keySet()) {
+        correlation.processInstanceVariableEquals(key, correlationKeys.get(key));
+        query.processVariableValueEquals(key, correlationKeys.get(key));
+      }
+      
+      // if nobody waits for this event we consider it not to be for us
+      if (query.count()==0) {
+        return false;
+      }
+      
+      // otherwise correlate it
+      correlation.setVariables(variables);
+      correlation.correlateWithResult();
+      return true;      
     }
   }
 
-  public boolean correlateResponseEvent(String eventName, VariableMap correlationKeys, VariableMap variables) {
-    MessageCorrelationBuilder correlation = engine.getRuntimeService().createMessageCorrelation(eventName);
-    ExecutionQuery query = engine.getRuntimeService().createExecutionQuery().messageEventSubscriptionName(eventName);
-    
-    for (String key : correlationKeys.keySet()) {
-      correlation.processInstanceVariableEquals(key, correlationKeys.get(key));
-      query.processVariableValueEquals(key, correlationKeys.get(key));
+  private VariableMap getCorrelationKeys(JsonObject event) {
+    VariableMap correlationKeys = Variables.createVariables();
+    if (event.get("orderId") != null) {
+      correlationKeys.put("orderId", event.getString("orderId"));
+    } else if (event.get("refId") != null) {
+      correlationKeys.put("orderId", event.getString("refId"));
+    } else if (event.get("pickId") != null) {
+      correlationKeys.put("pickId", event.getString("pickId"));
+    } else if (event.get("shipmentId") != null) {
+      correlationKeys.put("shipmentId", event.getString("shipmentId"));
     }
-    
-    // if nobody waits for this event we consider it not to be for us
-    if (query.count()==0) {
-      return false;
-    }
-    
-    // otherwise correlate it
-    correlation.setVariables(variables);
-    correlation.correlateWithResult();
-    return true;
+    return correlationKeys;
   }
-
   
   private Order parseOrder(JsonObject orderJson) {
     Order order = new Order();

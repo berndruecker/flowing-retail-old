@@ -38,7 +38,8 @@ public class EventContext {
     outgoing = Json.createObjectBuilder() //
         .add("type", type)//
         .add("name", name)//
-        .add("transactionId", transactionId);
+        .add("transactionId", transactionId) //
+        .add("sender", "Camunda DSL");
     return outgoing;
   }
   

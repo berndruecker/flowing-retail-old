@@ -85,8 +85,9 @@ public abstract class DslCamundaEventHandler extends EventHandler {
       // Start workflow for order
       engine.getRuntimeService().startProcessInstanceByKey( //
           "Process_OrderPlaced",
+          transactionId,
           Variables.createVariables() //
-              .putValue("correlationId", transactionId) //
+              .putValue("transactionId", transactionId) //
               .putValue("orderId", order.getId()) //
               .putValue("incomingEvent", asString(event)) //
       );
