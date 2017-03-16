@@ -12,12 +12,11 @@ import io.flowing.retail.adapter.EventHandler;
 public class BpmnMonitorEventConsumer extends EventHandler {
 
   @Override
-  public boolean handleEvent(String type, String name, JsonObject event) {
+  public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
     
     JsonString orderId = event.getJsonString("orderId");
     JsonString refId = event.getJsonString("refId");
     JsonString pickId = event.getJsonString("pickId");
-    JsonString correlationId = event.getJsonString("correlationId");
 
     // we need a query to safely check if a process instance is waiting for the event
     ExecutionQuery query = BpmPlatform.getDefaultProcessEngine().getRuntimeService() //
@@ -31,13 +30,13 @@ public class BpmnMonitorEventConsumer extends EventHandler {
         .createMessageCorrelation(name) //
         .setVariable("eventPayload", asString(event));
 
-    if (orderId==null && refId==null && correlationId!=null) {
-      correlation.setVariable("correlationId", correlationId.getString());
+    if (orderId==null && refId==null && transactionId!=null) {
+      correlation.setVariable("transactionId", transactionId);
       query = null; // a new instance will be started
     }
-    else if (orderId!=null && refId==null && correlationId!=null) {
-      correlation.processInstanceVariableEquals("correlationId", correlationId.getString());
-      query.processVariableValueEquals("correlationId", correlationId.getString());
+    else if (orderId!=null && refId==null && transactionId!=null) {
+      correlation.processInstanceVariableEquals("transactionId", transactionId);
+      query.processVariableValueEquals("transactionId", transactionId);
       
       correlation.setVariable("orderId", orderId.getString());
     }
