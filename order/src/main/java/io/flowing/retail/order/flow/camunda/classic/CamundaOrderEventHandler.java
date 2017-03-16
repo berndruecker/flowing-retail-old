@@ -37,16 +37,16 @@ public class CamundaOrderEventHandler extends EventHandler {
 
   @Override
   public boolean handleEvent(String type, String eventName, String transactionId, JsonObject event) {
-    VariableMap variables = Variables.createVariables();
     if ("Event".equals(type) && "OrderPlaced".equals(eventName)) {
       // Currently special handling to also persist the order
 
       Order order = parseOrder(event.getJsonObject("order"));
       // "Persist" order
       orderRepository.persistOrder(order);
+
+      VariableMap variables = Variables.createVariables();
       variables.put("orderId", order.getId());
-      variables.put("transactionId", transactionId);
-      
+      variables.put("transactionId", transactionId);      
       engine.getRuntimeService().startProcessInstanceByKey("order", transactionId, variables);
       
       return true;
@@ -58,15 +58,7 @@ public class CamundaOrderEventHandler extends EventHandler {
   
       // Correlate by possible ids in this priority
       VariableMap correlationKeys = getCorrelationKeys(event);
-  
-      // add all possible additional correlation keys as variables to the flow
-      if (event.get("pickId") != null) {
-        variables.putValue("pickId", event.getString("pickId"));
-      }
-      if (event.get("shipmentId") != null) {
-        variables.putValue("shipmentId", event.getString("shipmentId"));
-      }
-  
+    
       MessageCorrelationBuilder correlation = engine.getRuntimeService().createMessageCorrelation(eventName);
       ExecutionQuery query = engine.getRuntimeService().createExecutionQuery().messageEventSubscriptionName(eventName);
       
@@ -79,12 +71,27 @@ public class CamundaOrderEventHandler extends EventHandler {
       if (query.count()==0) {
         return false;
       }
-      
+  
       // otherwise correlate it
-      correlation.setVariables(variables);
+
+      // add all possible additional correlation keys as variables to the flow
+      VariableMap newVariables = getNewVariables(event);
+      correlation.setVariables(newVariables);
+      
       correlation.correlateWithResult();
       return true;      
     }
+  }
+
+  private VariableMap getNewVariables(JsonObject event) {
+    VariableMap variables = Variables.createVariables();
+    if (event.get("pickId") != null) {
+      variables.putValue("pickId", event.getString("pickId"));
+    }
+    if (event.get("shipmentId") != null) {
+      variables.putValue("shipmentId", event.getString("shipmentId"));
+    }
+    return variables;
   }
 
   private VariableMap getCorrelationKeys(JsonObject event) {

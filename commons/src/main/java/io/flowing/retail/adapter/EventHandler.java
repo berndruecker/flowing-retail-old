@@ -5,13 +5,10 @@ import java.io.StringWriter;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
 
 public abstract class EventHandler {
-
-  public static EventHandler instance = null;
 
   public void handleEvent(String eventAsJson) {
     JsonReader jsonReader = Json.createReader(new StringReader(eventAsJson));

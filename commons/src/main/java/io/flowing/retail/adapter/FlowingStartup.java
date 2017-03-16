@@ -13,21 +13,19 @@ public class FlowingStartup {
     System.out.println("START SERVICE: " + name);
 
     if (Arrays.asList(args).contains("rabbit")) {
-      startupChannelRabbitMq();
+      startupChannelRabbitMq(name, eventHandler);
     } else { // default
-      startupChannelKafka(name);      
+      startupChannelKafka(name, eventHandler);      
     }
-
-    EventHandler.instance = eventHandler;    
   }
 
-  public static void startupChannelKafka(String name) {
+  public static void startupChannelKafka(String name, EventHandler eventHandler) {
     ChannelSender.startup(new KafkaSender());
-    ChannelConsumer.startup(new KafkaChannelConsumer(name));
+    ChannelConsumer.startup(new KafkaChannelConsumer(name, eventHandler));
   }
 
-  public static void startupChannelRabbitMq() {
+  public static void startupChannelRabbitMq(String name, EventHandler eventHandler) {
     ChannelSender.startup(new RabbitMqSender());
-    ChannelConsumer.startup(new RabbitMqConsumer());
+    ChannelConsumer.startup(new RabbitMqConsumer(name, eventHandler));
   }
 }

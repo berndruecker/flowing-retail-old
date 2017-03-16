@@ -17,9 +17,19 @@ public class RabbitMqConsumer extends ChannelConsumer {
 
   public static String QUEUE_NAME = "flowing-retail";
 
-  private EventHandler eventConsumer = EventHandler.instance;
+  private EventHandler eventHandler;
 
   private Channel channel;
+
+  private String name;
+
+  public RabbitMqConsumer() {    
+  }
+  
+  public RabbitMqConsumer(String name, EventHandler eventHandler) {
+    this.name = name;
+    this.eventHandler = eventHandler;  
+  }
 
   protected void connect() throws Exception {
     ConnectionFactory factory = new ConnectionFactory();
@@ -35,7 +45,7 @@ public class RabbitMqConsumer extends ChannelConsumer {
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
         String message = new String(body, "UTF-8");
         System.out.println(" [x] Received '" + message + "'");
-        eventConsumer.handleEvent(message);
+        eventHandler.handleEvent(message);
       }
     };
     channel.basicConsume(QUEUE_NAME, true, consumer);

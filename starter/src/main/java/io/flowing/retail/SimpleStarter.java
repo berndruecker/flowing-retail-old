@@ -12,25 +12,32 @@ import io.flowing.retail.shop.ShopApplication;
 
 public class SimpleStarter {
 
+  /**
+   * You can use different arguments:
+   * 
+   * For channel: kafka [default], rabbit
+   * no-kafka (means that kafka is not started by the starter but provided yourself)
+   * 
+   * For flow: camunda [default], camunda-dsl, entity
+   */
   public static void main(String[] args) throws Exception {
-//    args = new String[] {"rabbit"};
-//    args = new String[] {"camunda"};
-//    args = new String[] {"camunda-dsl"};
-//    args = new String[] {"entity"};
+
+    ChannelSender.delay = 100; // 100 ms
+
     
+    // if not rabbit lets start up kafka - if not supressed by argument
     if (!Arrays.asList(args).contains("rabbit") && !Arrays.asList(args).contains("no-kafka")) { 
-      // if not rabbit lets start up kafka
       KafkaStarter.main(args);
     }
     
-    ChannelSender.delay = 100; // 100 ms
-    
-    ShopApplication.main(args);
+    // startup all services
     OrderApplication.main(args);
     PaymentApplication.main(args);
     InventoryApplication.main(args);
     ShippingApplication.main(args);
-    
+
+    ShopApplication.main(args);
+
     MonitorApplication.main(args);
   }
 
