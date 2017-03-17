@@ -1,4 +1,4 @@
-package io.flowing.retail.order.flow.camunda.classic;
+package io.flowing.retail.order.flow.camunda;
 
 import org.apache.ibatis.transaction.Transaction;
 import org.camunda.bpm.engine.impl.pvm.delegate.ActivityExecution;

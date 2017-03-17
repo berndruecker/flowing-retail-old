@@ -17,11 +17,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0r2vi0e" sourceRef="ExclusiveGateway_0riv3ls" targetRef="Task_1eik3mm" />
     <bpmn:endEvent id="EndEvent_1bijakr" name="Order Completed">
       <bpmn:incoming>SequenceFlow_1hyy5mk</bpmn:incoming>
-      <bpmn:messageEventDefinition camunda:class="io.flowing.retail.order.flow.camunda.classic.OrderCompletedAdapter" />
+      <bpmn:messageEventDefinition camunda:class="io.flowing.retail.order.flow.camunda.OrderCompletedAdapter" />
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_02hsain" sourceRef="Task_1eik3mm" targetRef="Task_17hnfpa" />
     <bpmn:sequenceFlow id="SequenceFlow_1hyy5mk" sourceRef="Task_17hnfpa" targetRef="EndEvent_1bijakr" />
-    <bpmn:serviceTask id="Task_07syogr" name="reserve goods" camunda:class="io.flowing.retail.order.flow.camunda.classic.ReserveGoodsAdapter">
+    <bpmn:serviceTask id="Task_07syogr" name="reserve goods" camunda:class="io.flowing.retail.order.flow.camunda.ReserveGoodsAdapter">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="responseEventName">GoodsReserved</camunda:inputParameter>
@@ -31,15 +31,15 @@
       <bpmn:outgoing>SequenceFlow_05pu7lh</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_05pu7lh" sourceRef="Task_07syogr" targetRef="ExclusiveGateway_0riv3ls" />
-    <bpmn:serviceTask id="Task_07gau8d" name="do payment" camunda:class="io.flowing.retail.order.flow.camunda.classic.DoPaymentAdapter">
+    <bpmn:serviceTask id="Task_07gau8d" name="do payment" camunda:class="io.flowing.retail.order.flow.camunda.DoPaymentAdapter">
       <bpmn:incoming>SequenceFlow_04bgjxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hmlupl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_1eik3mm" name="pick goods" camunda:class="io.flowing.retail.order.flow.camunda.classic.PickGoodsAdapter">
+    <bpmn:serviceTask id="Task_1eik3mm" name="pick goods" camunda:class="io.flowing.retail.order.flow.camunda.PickGoodsAdapter">
       <bpmn:incoming>SequenceFlow_0r2vi0e</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02hsain</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_17hnfpa" name="ship goods" camunda:class="io.flowing.retail.order.flow.camunda.classic.ShipGoodsAdapter">
+    <bpmn:serviceTask id="Task_17hnfpa" name="ship goods" camunda:class="io.flowing.retail.order.flow.camunda.ShipGoodsAdapter">
       <bpmn:incoming>SequenceFlow_02hsain</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hyy5mk</bpmn:outgoing>
     </bpmn:serviceTask>

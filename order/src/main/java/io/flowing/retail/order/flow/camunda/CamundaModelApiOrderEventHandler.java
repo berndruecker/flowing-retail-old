@@ -1,4 +1,4 @@
-package io.flowing.retail.order.flow.camunda.classic;
+package io.flowing.retail.order.flow.camunda;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +13,9 @@ import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.model.bpmn.Bpmn;
+import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.xml.ModelInstance;
 import org.h2.tools.Server;
 
 import com.camunda.consulting.util.LicenseHelper;
@@ -24,15 +27,27 @@ import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderItem;
 import io.flowing.retail.order.domain.OrderRepository;
 
-public class CamundaOrderEventHandler extends EventHandler {
+public class CamundaModelApiOrderEventHandler extends EventHandler {
 
   private ProcessEngine engine;
   private OrderRepository orderRepository = OrderRepository.instance;
   private Server h2Server;
 
-  public CamundaOrderEventHandler() {
-    startUpEngineAndInit();
-    engine.getRepositoryService().createDeployment().addClasspathResource("order.bpmn").deploy();    
+  public CamundaModelApiOrderEventHandler() {
+    startUpEngineAndInit();       
+    createFlow();   
+  }
+
+  private void createFlow() {
+    engine.getRepositoryService().createDeployment() //
+      .addModelInstance("order.bpmn", Bpmn.createProcess("order").executable() //
+        .startEvent()
+        .serviceTask().name("Do payment").camundaClass(DoPaymentAdapter.class.getName())
+        .serviceTask().name("Pick goods").camundaClass(PickGoodsAdapter.class.getName())
+        .serviceTask().name("Ship goods").camundaClass(ShipGoodsAdapter.class.getName())
+        .endEvent().camundaExecutionListenerClass("end", OrderCompletedAdapter.class.getName())
+        .done()
+      ).deploy();
   }
 
   @Override

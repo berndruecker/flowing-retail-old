@@ -1,4 +1,4 @@
-package io.flowing.retail.order.flow.camunda.classic;
+package io.flowing.retail.order.flow.camunda;
 
 import org.camunda.bpm.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import org.camunda.bpm.engine.impl.event.EventType;

@@ -18,7 +18,7 @@ public class SimpleStarter {
    * For channel: kafka [default], rabbit
    * no-kafka (means that kafka is not started by the starter but provided yourself)
    * 
-   * For flow: camunda [default], camunda-dsl, entity
+   * For flow: camunda [default], camunda-bpmn, camunda-dsl, entity
    */
   public static void main(String[] args) throws Exception {
 

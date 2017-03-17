@@ -21,7 +21,7 @@ import io.flowing.retail.order.flow.camunda.dsl.commons.camunda.DslCamundaEventH
  * @author ruecker
  *
  */
-public class CamundaDslOrderEventHandler extends DslCamundaEventHandler {
+public class CamundaCustomDslOrderEventHandler extends DslCamundaEventHandler {
 
   public String defineFlow() {
     CamundaFlowBuilder flow = new CamundaFlowBuilder("OrderPlaced");
