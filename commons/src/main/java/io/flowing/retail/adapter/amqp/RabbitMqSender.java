@@ -12,16 +12,13 @@ import io.flowing.retail.adapter.ChannelSender;
 
 public class RabbitMqSender extends ChannelSender {
 
-  public static String QUEUE_NAME = "flowing-retail";
-
   private Connection connection;
-
   private Channel channel;
 
   public void doSend(String eventString) {
     System.out.println("Sending event via RabbitMQ: " + eventString);
     try {
-      channel.basicPublish("", QUEUE_NAME, null, eventString.getBytes("UTF-8"));
+      channel.basicPublish(RabbitMqConsumer.EXCHANGE_NAME, "", null, eventString.getBytes("UTF-8"));
     } catch (Exception ex) {
       throw new RuntimeException("Could not send message with RabbitMQ: " + ex.getMessage(), ex);
     }
@@ -33,7 +30,7 @@ public class RabbitMqSender extends ChannelSender {
     connection = factory.newConnection();
     channel = connection.createChannel();
 
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+    channel.exchangeDeclare(RabbitMqConsumer.EXCHANGE_NAME, "fanout", true); // publish/subscribe model
 
     System.out.println("Connected to RabbitMQ");
   }

@@ -15,7 +15,7 @@ import io.flowing.retail.adapter.EventHandler;
 
 public class RabbitMqConsumer extends ChannelConsumer {
 
-  public static String QUEUE_NAME = "flowing-retail";
+  public static String EXCHANGE_NAME = "flowing-retail";
 
   private EventHandler eventHandler;
 
@@ -37,7 +37,11 @@ public class RabbitMqConsumer extends ChannelConsumer {
     Connection connection = factory.newConnection();
     channel = connection.createChannel();
 
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+    String queueName = "flowing-retail-" + name;
+    channel.queueDeclare(queueName, true, false, false, null);
+    channel.exchangeDeclare(EXCHANGE_NAME, "fanout", true); // publish/subscribe model
+    channel.queueBind(queueName, EXCHANGE_NAME, "*");
+
     System.out.println(" [*] Waiting for messages.");
 
     Consumer consumer = new DefaultConsumer(channel) {
@@ -48,7 +52,7 @@ public class RabbitMqConsumer extends ChannelConsumer {
         eventHandler.handleEvent(message);
       }
     };
-    channel.basicConsume(QUEUE_NAME, true, consumer);
+    channel.basicConsume(queueName, true, consumer);
   }
 
   protected void disconnect() throws Exception {
