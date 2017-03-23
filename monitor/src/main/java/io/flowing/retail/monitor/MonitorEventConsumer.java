@@ -20,7 +20,8 @@ public class MonitorEventConsumer extends EventHandler {
     if (eventContent.containsKey("sender")) {
       sender = eventContent.getString("sender");
     }
-    PastEvent event = new PastEvent(type, name, transactionId, sender, eventContent);
+    
+    PastEvent event = new PastEvent(type, name, transactionId, sender, asString(eventContent));
     LogRepository.instance.addEvent(event);
     simpMessageTemplate.convertAndSend("/topic/events", event);
     return false;

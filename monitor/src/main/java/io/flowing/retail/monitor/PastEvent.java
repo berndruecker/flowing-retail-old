@@ -1,19 +1,17 @@
 package io.flowing.retail.monitor;
 
-import javax.json.JsonObject;
-
 public class PastEvent {
 
   private String transactionId;
   private String type;
   private String name;
-  private JsonObject content;
+  private String content;
   private String sender;
 
   public PastEvent() {    
   }
   
-  public PastEvent(String type, String name, String transactionId, String sender, JsonObject eventContent) {
+  public PastEvent(String type, String name, String transactionId, String sender, String eventContent) {
     this.transactionId = transactionId;
     this.type = type;
     this.name = name;
@@ -37,11 +35,11 @@ public class PastEvent {
     this.name = name;
   }
 
-  public JsonObject getContent() {
+  public String getContent() {
     return content;
   }
 
-  public void setContent(JsonObject content) {
+  public void setContent(String content) {
     this.content = content;
   }
 
