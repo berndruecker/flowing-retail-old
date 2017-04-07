@@ -69,7 +69,7 @@
   });
 
   function loadModels() {
-    $.get(restAccess + '/history/process-instance/?variables=transactionId_eq_' + transactionId, 
+    $.get(restAccess + '/history/process-instance/?variables=transactionId_eq_' + transactionId + '&sortBy=startTime&sortOrder=asc', 
       function(processInstances) {
         for (var index = 0; index < processInstances.length; ++index) {
             var pi = processInstances[index];
@@ -113,18 +113,25 @@
         // skip loop if the property is from prototype
         if (!processViewers.hasOwnProperty(processInstanceId)) continue;
 
-        var pi = processViewers[processInstanceId].processInstance;
-        var viewer = processViewers[processInstanceId].viewer;
-
         var overlays = processViewers[processInstanceId].overlays;
         overlays.clear();
           
-        $.get(restAccess + "/history/activity-instance/?processInstanceId=" + processInstanceId , function(instances) {
-           addActivityInstances(overlays, instances);                
+        $.ajax({
+          type: "GET",
+          url: restAccess + "/history/activity-instance/?processInstanceId=" + processInstanceId,
+          overlays: overlays,
+          success: function (instances) {
+           addActivityInstances(this.overlays, instances);                
+          }
         });
-        $.get(restAccess +  "/incident/?processInstanceId=" + processInstanceId , function(incidents) {     
-           addIncidents(overlays, incidents);                
-        });
+        $.ajax({
+          type: "GET",
+          url: restAccess +  "/incident/?processInstanceId=" + processInstanceId,
+          overlays: overlays,
+          success: function (incidents) {
+           addIncidents(this.overlays, incidents);                
+          }
+        });   
     }
   }
   
