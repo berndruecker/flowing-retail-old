@@ -15,7 +15,7 @@ function setConnected(connected) {
 }
 
 function newEventReceived(event) {
-    console.log(event);
+    //console.log(event);
 
     // id used to find transaction via JavaScript, "-" from UUID not valid as JS-ID.
     var jsTransactionId = event.transactionId;

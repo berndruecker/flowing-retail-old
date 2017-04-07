@@ -10,14 +10,11 @@ public class DoPaymentAdapter extends CommandPubEventSubAdapter {
 
   @Override
   public void execute(ActivityExecution execution) throws Exception {
-    OrderEventProducer eventProducer = new OrderEventProducer();
-
     Order order = OrderRepository.instance.getOrder((String)execution.getVariable("orderId")); 
-    String transactionId = (String)execution.getVariable("transactionId");
-    
-    addMessageSubscription(execution, "PaymentReceived");
+    String transactionId = (String)execution.getVariable("transactionId");    
 
-    eventProducer.publishCommandDoPayment(transactionId, order);
+    new OrderEventProducer().publishCommandDoPayment(transactionId, order);
+    addMessageSubscription(execution, "PaymentReceived");
   }
 
 }
