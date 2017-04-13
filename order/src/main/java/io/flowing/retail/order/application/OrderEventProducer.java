@@ -31,8 +31,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishCommandDoPayment(String transactionId, Order order) {
-    JsonObjectBuilder json = createCommandPayloadJson("DoPayment", transactionId);
+  public void publishCommandRetrievePayment(String transactionId, Order order) {
+    JsonObjectBuilder json = createCommandPayloadJson("RetrievePayment", transactionId);
     json //
         .add("refId", order.getId()) //
         .add("reason", "CustomerOrder") //
@@ -40,8 +40,8 @@ public class OrderEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishCommandPickGoods(String transactionId, Order order) {
-    JsonObjectBuilder json = createCommandPayloadJson("PickGoods", transactionId);
+  public void publishCommandFetchGoods(String transactionId, Order order) {
+    JsonObjectBuilder json = createCommandPayloadJson("FetchGoods", transactionId);
     json //
         .add("refId", order.getId()) //
         .add("reason", "CustomerOrder") //

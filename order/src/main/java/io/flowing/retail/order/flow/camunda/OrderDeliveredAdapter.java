@@ -7,7 +7,7 @@ import io.flowing.retail.order.application.OrderEventProducer;
 import io.flowing.retail.order.domain.Order;
 import io.flowing.retail.order.domain.OrderRepository;
 
-public class OrderCompletedAdapter implements JavaDelegate {
+public class OrderDeliveredAdapter implements JavaDelegate {
 
   public void execute(DelegateExecution execution) throws Exception {
     OrderEventProducer eventProducer = new OrderEventProducer();

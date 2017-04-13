@@ -31,7 +31,7 @@ public class CamundaPaymentEventHandler extends EventHandler {
 
   @Override
   public boolean handleEvent(String type, String name, String transactionId, JsonObject event) {
-    if ("Command".equals(type) && "DoPayment".equals(name)) {
+    if ("Command".equals(type) && "RetrievePayment".equals(name)) {
       String refId = event.getString("refId");
       String reason = event.getString("reason");
       long amount = event.getJsonNumber("amount").longValue();

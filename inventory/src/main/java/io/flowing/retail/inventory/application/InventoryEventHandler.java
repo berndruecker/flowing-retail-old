@@ -28,7 +28,7 @@ public class InventoryEventHandler extends EventHandler {
       } else { // no stock
         eventProducer.publishEventGoodsNotReserved(transactionId, refId, reason);
       }
-    } else if ("Command".equals(type) && "PickGoods".equals(name)) {
+    } else if ("Command".equals(type) && "FetchGoods".equals(name)) {
       String refId = event.getString("refId");
       String reason = event.getString("reason");
       ArrayList<Item> items = parseItems(event.getJsonArray("items"));
@@ -36,7 +36,7 @@ public class InventoryEventHandler extends EventHandler {
       String pickId = InventoryService.instance.pickItems(items, refId, reason);
       if (pickId != null) {
         // TODO: Maybe move in inventory service?
-        eventProducer.publishEventGoodsPicked(transactionId, refId, reason, pickId);
+        eventProducer.publishEventGoodsFetched(transactionId, refId, reason, pickId);
       } else { // no stock
         eventProducer.publishEventPickError(transactionId, refId, reason);
       }

@@ -22,8 +22,8 @@ public class InventoryEventProducer extends EventProducer {
     send(json);
   }
 
-  public void publishEventGoodsPicked(String transactionId, String refId, String reason, String pickId) {
-    JsonObjectBuilder json = createEventPayloadJson("GoodsPicked", transactionId);
+  public void publishEventGoodsFetched(String transactionId, String refId, String reason, String pickId) {
+    JsonObjectBuilder json = createEventPayloadJson("GoodsFetched", transactionId);
     json //
         .add("refId", refId) //
         .add("reason", reason) //
@@ -32,7 +32,7 @@ public class InventoryEventProducer extends EventProducer {
   }
 
   public void publishEventPickError(String transactionId, String refId, String reason) {
-    JsonObjectBuilder json = createEventPayloadJson("PickError", transactionId);
+    JsonObjectBuilder json = createEventPayloadJson("GoodsNotFetched", transactionId);
     json //
         .add("refId", refId) //
         .add("reason", reason);

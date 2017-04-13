@@ -2,21 +2,21 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.1">
   <bpmn:process id="order" name="Order" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_0hmlupl" sourceRef="Task_07gau8d" targetRef="Task_1eik3mm" />
-    <bpmn:endEvent id="EndEvent_1bijakr" name="Order Completed">
+    <bpmn:endEvent id="EndEvent_1bijakr" name="Order delivered">
       <bpmn:incoming>SequenceFlow_1hyy5mk</bpmn:incoming>
-      <bpmn:messageEventDefinition camunda:class="io.flowing.retail.order.flow.camunda.OrderCompletedAdapter" />
+      <bpmn:messageEventDefinition camunda:class="io.flowing.retail.order.flow.camunda.OrderDeliveredAdapter" />
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_02hsain" sourceRef="Task_1eik3mm" targetRef="Task_17hnfpa" />
     <bpmn:sequenceFlow id="SequenceFlow_1hyy5mk" sourceRef="Task_17hnfpa" targetRef="EndEvent_1bijakr" />
-    <bpmn:serviceTask id="Task_07gau8d" name="do payment" camunda:class="io.flowing.retail.order.flow.camunda.DoPaymentAdapter">
+    <bpmn:serviceTask id="Task_07gau8d" name="Retrieve payment" camunda:class="io.flowing.retail.order.flow.camunda.RetrievePaymentAdapter">
       <bpmn:incoming>SequenceFlow_1fjsq19</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hmlupl</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_1eik3mm" name="pick goods" camunda:class="io.flowing.retail.order.flow.camunda.PickGoodsAdapter">
+    <bpmn:serviceTask id="Task_1eik3mm" name="Fetch goods" camunda:class="io.flowing.retail.order.flow.camunda.FetchGoodsAdapter">
       <bpmn:incoming>SequenceFlow_0hmlupl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02hsain</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_17hnfpa" name="ship goods" camunda:class="io.flowing.retail.order.flow.camunda.ShipGoodsAdapter">
+    <bpmn:serviceTask id="Task_17hnfpa" name="Ship goods" camunda:class="io.flowing.retail.order.flow.camunda.ShipGoodsAdapter">
       <bpmn:incoming>SequenceFlow_02hsain</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1hyy5mk</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -45,7 +45,7 @@
       <bpmndi:BPMNShape id="EndEvent_0ba0xqf_di" bpmnElement="EndEvent_1bijakr">
         <dc:Bounds x="631" y="60" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="607" y="96" width="85" height="13" />
+          <dc:Bounds x="612" y="96" width="76" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_02hsain_di" bpmnElement="SequenceFlow_02hsain">

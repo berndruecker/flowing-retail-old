@@ -15,7 +15,7 @@ public class PaymentEventProducer extends EventProducer {
   }
 
   public void publishEventPaymentFailedEvent(String transactionId, String refId, String reason) {
-    JsonObjectBuilder json = createEventPayloadJson("PaymentError", transactionId);
+    JsonObjectBuilder json = createEventPayloadJson("PaymentFailed", transactionId);
     json //
         .add("refId", refId) //
         .add("reason", reason);

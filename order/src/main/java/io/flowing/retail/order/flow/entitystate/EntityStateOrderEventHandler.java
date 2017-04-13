@@ -24,15 +24,15 @@ public class EntityStateOrderEventHandler extends EventHandler {
       Order order = parseOrder(event.getJsonObject("order"));
 
       processOrder(transactionId, order);
-    } else if ("Event".equals(type) && "GoodsReserved".equals(name)) {
-      String reason = event.getString("reason");
-      if ("CustomerOrder".equals(reason)) {
-        String orderId = event.getString("refId");
-        processGoodsReservation(orderId);
-      } else {
-        System.out.println("..ignored (reservation not for a customer order).");
-        return false;
-      }
+//    } else if ("Event".equals(type) && "GoodsReserved".equals(name)) {
+//      String reason = event.getString("reason");
+//      if ("CustomerOrder".equals(reason)) {
+//        String orderId = event.getString("refId");
+//        processGoodsReservation(orderId);
+//      } else {
+//        System.out.println("..ignored (reservation not for a customer order).");
+//        return false;
+//      }
     } else if ("Event".equals(type) && "PaymentReceived".equals(name)) {
       String reason = event.getString("reason");
       if ("CustomerOrder".equals(reason)) {
@@ -42,7 +42,7 @@ public class EntityStateOrderEventHandler extends EventHandler {
         System.out.println("..ignored (reservation not for a customer order).");
         return false;
       }
-    } else if ("Event".equals(type) && "GoodsPicked".equals(name)) {
+    } else if ("Event".equals(type) && "GoodsFetched".equals(name)) {
       String reason = event.getString("reason");
       if ("CustomerOrder".equals(reason)) {
         String orderId = event.getString("refId");
@@ -76,10 +76,10 @@ public class EntityStateOrderEventHandler extends EventHandler {
 
     eventProducer.publishEventOrderCreated(transationId, order);
     
-    // issue ReserveGoodsCommand  
-    eventProducer.publishCommandReserveGoods(transationId, order);
+//    // issue ReserveGoodsCommand  
+//    eventProducer.publishCommandReserveGoods(transationId, order);
     // issue DoPaymentCommand
-    eventProducer.publishCommandDoPayment(transationId, order);
+    eventProducer.publishCommandRetrievePayment(transationId, order);
   }
 
   public void processGoodsReservation(String orderId) { 
@@ -99,8 +99,9 @@ public class EntityStateOrderEventHandler extends EventHandler {
   }
 
   private void checkOrderReadyForPicking(OrderWithState order) {
-    if (order.isPaymentReceived() && order.getDeliveryStatus()==GoodsDeliveryStatus.GOODS_RESERVED) {
-      eventProducer.publishCommandPickGoods(order.getTransactionId(), order.asSimpleOrder());
+    if (order.isPaymentReceived()) { 
+        //&& order.getDeliveryStatus()==GoodsDeliveryStatus.GOODS_RESERVED) {
+      eventProducer.publishCommandFetchGoods(order.getTransactionId(), order.asSimpleOrder());
     }
   }
 

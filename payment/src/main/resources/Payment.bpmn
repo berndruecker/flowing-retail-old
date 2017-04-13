@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.1">
   <bpmn:process id="Payment" name="Payment" isExecutable="true">
-    <bpmn:serviceTask id="ServiceTask_10hm6pn" name="Bill credit card" camunda:expression="#{true}">
+    <bpmn:serviceTask id="ServiceTask_10hm6pn" name="Charge credit card" camunda:expression="#{true}">
       <bpmn:incoming>SequenceFlow_0wxm9c0</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0si7w2m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_064rfmt</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:boundaryEvent id="BoundaryEvent_0s43v6m" name="Payment error occured" attachedToRef="ServiceTask_10hm6pn">
+    <bpmn:boundaryEvent id="BoundaryEvent_0s43v6m" name="Credit card&#10;failed" attachedToRef="ServiceTask_10hm6pn">
       <bpmn:outgoing>SequenceFlow_1me4ldb</bpmn:outgoing>
       <bpmn:errorEventDefinition errorRef="Error_1qxsin7" />
     </bpmn:boundaryEvent>
@@ -14,11 +14,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_096vlng" sourceRef="Task_0sdkq4x" targetRef="Task_1yuae6d" />
     <bpmn:sequenceFlow id="SequenceFlow_0wxm9c0" sourceRef="Task_1yuae6d" targetRef="ServiceTask_10hm6pn" />
     <bpmn:sequenceFlow id="SequenceFlow_1me4ldb" sourceRef="BoundaryEvent_0s43v6m" targetRef="Task_0sdkq4x" />
-    <bpmn:serviceTask id="Task_0sdkq4x" name="Ask customer to update credit card" camunda:expression="#{true}">
+    <bpmn:serviceTask id="Task_0sdkq4x" name="Inform customer that new credit card is required" camunda:expression="#{true}">
       <bpmn:incoming>SequenceFlow_1me4ldb</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_096vlng</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:receiveTask id="Task_1yuae6d" name="Wait for new credit card information" messageRef="Message_03z4dfb">
+    <bpmn:receiveTask id="Task_1yuae6d" name="Wait for new credit card details" messageRef="Message_03z4dfb">
       <bpmn:incoming>SequenceFlow_096vlng</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wxm9c0</bpmn:outgoing>
     </bpmn:receiveTask>
@@ -44,7 +44,7 @@
       <bpmn:incoming>SequenceFlow_064rfmt</bpmn:incoming>
       <bpmn:messageEventDefinition />
     </bpmn:endEvent>
-    <bpmn:startEvent id="StartEvent_1" name="&#34;Do Payment&#34; command received">
+    <bpmn:startEvent id="StartEvent_1" name="Payment retrieval requested">
       <bpmn:outgoing>SequenceFlow_0si7w2m</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_1k9v13u" />
     </bpmn:startEvent>
@@ -60,7 +60,7 @@
       <bpmndi:BPMNShape id="BoundaryEvent_0s43v6m_di" bpmnElement="BoundaryEvent_0s43v6m">
         <dc:Bounds x="322" y="71" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="303" y="107" width="73" height="24" />
+          <dc:Bounds x="348" y="107" width="54" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0si7w2m_di" bpmnElement="SequenceFlow_0si7w2m">
@@ -136,7 +136,7 @@
       <bpmndi:BPMNShape id="StartEvent_1ilc2rt_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="31" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="134" y="67" width="72" height="36" />
+          <dc:Bounds x="131" y="67" width="79" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

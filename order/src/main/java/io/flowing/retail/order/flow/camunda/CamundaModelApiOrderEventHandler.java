@@ -2,10 +2,14 @@ package io.flowing.retail.order.flow.camunda;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.camunda.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
@@ -34,7 +38,7 @@ public class CamundaModelApiOrderEventHandler extends EventHandler {
   private Server h2Server;
 
   public CamundaModelApiOrderEventHandler() {
-    startUpEngineAndInit();       
+    startUpEngineAndInit();    
     createFlow();   
   }
 
@@ -42,14 +46,14 @@ public class CamundaModelApiOrderEventHandler extends EventHandler {
     engine.getRepositoryService().createDeployment() //
       .addModelInstance("order.bpmn", Bpmn.createProcess("order").executable() //
         .startEvent()
-        .serviceTask().name("Do payment").camundaClass(DoPaymentAdapter.class.getName())
-        .serviceTask().name("Pick goods").camundaClass(PickGoodsAdapter.class.getName())
+        .serviceTask().name("Retrieve payment").camundaClass(RetrievePaymentAdapter.class.getName())
+        .serviceTask().name("Fetch goods").camundaClass(FetchGoodsAdapter.class.getName())
         .serviceTask().name("Ship goods").camundaClass(ShipGoodsAdapter.class.getName())
-        .endEvent().camundaExecutionListenerClass("end", OrderCompletedAdapter.class.getName())
+        .endEvent().camundaExecutionListenerClass("end", OrderDeliveredAdapter.class.getName())
         .done()
       ).deploy();
   }
-
+  
   @Override
   public boolean handleEvent(String type, String eventName, String transactionId, JsonObject event) {
     if ("Event".equals(type) && "OrderPlaced".equals(eventName)) {
@@ -195,4 +199,36 @@ public class CamundaModelApiOrderEventHandler extends EventHandler {
     });    
   }
 
+  
+  /** just for visualization, needed on blog post / slide **/
+  private void createComplexFlow() {
+    engine.getRepositoryService().createDeployment() //
+      .addModelInstance("order.bpmn", Bpmn.createProcess("order").executable() //
+        .startEvent()
+        .serviceTask().name("A")
+        .parallelGateway("fork1")
+          .serviceTask().name("B")
+          .parallelGateway("join2")
+          .moveToNode("fork1")
+          .serviceTask().name("C")
+          .parallelGateway("fork2")
+          .serviceTask().name("D")
+          .parallelGateway("join1")
+          .moveToNode("fork2")
+          .serviceTask().name("E")
+          .connectTo("join1")
+        .connectTo("join2")
+        .endEvent()
+        .done()
+      ).deploy();
+  }  
+  private void createCompensationFlow() {
+    engine.getRepositoryService().createDeployment() //
+      .addModelInstance("travel.bpmn", Bpmn.createProcess("travel").executable() //
+        .startEvent()
+        .serviceTask().name("Reserve car") //.camundaClass(ReserveCar.class)
+          .boundaryEvent().compensateEventDefinition().activityRef("compensateCar").compensateEventDefinitionDone()
+        .done()
+      ).deploy();
+  }  
 }

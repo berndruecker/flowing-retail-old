@@ -47,7 +47,7 @@ public class CamundaCustomDslOrderEventHandler extends DslCamundaEventHandler {
               .add("reason", "CustomerOrder") //
               .add("expirationDate", LocalDateTime.now().plus(2, ChronoUnit.DAYS).toString()) //
               .add("items", createJsonItemArray(ctx.order()));
-        }).issueCommand("DoPayment", (ctx) -> {
+        }).issueCommand("RetrievePayment", (ctx) -> {
           ctx.outgoing() //
               .add("refId", ctx.order().getId()) //
               .add("reason", "CustomerOrder") //
@@ -58,7 +58,7 @@ public class CamundaCustomDslOrderEventHandler extends DslCamundaEventHandler {
         // TODO: Some error message, in which case we have to cleanup
         .waitForEvents("GoodsReserved", "PaymentReceived") //
 
-        .issueCommand("PickGoods", (ctx) -> {
+        .issueCommand("FetchGoods", (ctx) -> {
           ctx.outgoing() //
               .add("refId", ctx.order().getId()) //
               .add("reason", "CustomerOrder") //
@@ -67,7 +67,7 @@ public class CamundaCustomDslOrderEventHandler extends DslCamundaEventHandler {
         }) //
 
         /////////////// GoodsPicked
-        .waitForEvent("GoodsPicked")
+        .waitForEvent("GoodsFetched")
 
         // issue ShipCommand
         // wait for occurrence of the events:
