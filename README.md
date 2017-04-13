@@ -15,6 +15,10 @@ Key facts:
 * Written in Java
 * As simple as possible to show concepts, not build for production usage. Hint: we know some parts in the code skip well known best practices and patterns, but we focussed on making the code easy to understand. For example we prefer to duplicate code, if this means you have to read one class less to understand what a component is doing.
 
+# Links
+
+* Introduction blog post by Bernd Rücker: https://blog.bernd-ruecker.com/flowing-retail-demonstrating-aspects-of-microservices-events-and-their-flow-with-concrete-source-7f3abdd40e53
+
 # Overview and architecture
 
 Flowing retail simulates a very easy order processing system. The business logic is separated into the following microservices:
