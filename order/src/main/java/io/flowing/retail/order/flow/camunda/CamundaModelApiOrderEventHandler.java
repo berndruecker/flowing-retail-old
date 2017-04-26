@@ -1,29 +1,14 @@
 package io.flowing.retail.order.flow.camunda;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.List;
-
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.camunda.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
-import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.runtime.ExecutionQuery;
 import org.camunda.bpm.engine.runtime.MessageCorrelationBuilder;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.bpm.model.bpmn.Bpmn;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.xml.ModelInstance;
-import org.h2.tools.Server;
-
-import com.camunda.consulting.util.LicenseHelper;
-import com.camunda.consulting.util.UserGenerator;
 
 import io.flowing.retail.adapter.EventHandler;
 import io.flowing.retail.order.domain.Customer;
@@ -34,11 +19,10 @@ import io.flowing.retail.order.domain.OrderRepository;
 public class CamundaModelApiOrderEventHandler extends EventHandler {
 
   private ProcessEngine engine;
-  private OrderRepository orderRepository = OrderRepository.instance;
-  private Server h2Server;
+  private OrderRepository orderRepository = OrderRepository.instance;  
 
   public CamundaModelApiOrderEventHandler() {
-    startUpEngineAndInit();    
+    engine = CamundaEngineHelper.startUpEngineAndInit(); 
     createFlow();   
   }
 
@@ -149,56 +133,6 @@ public class CamundaModelApiOrderEventHandler extends EventHandler {
 
     return order;
   }
-
-  private void startUpEngineAndInit() {
-    
-    boolean h2DbAlreadyRunning = false;
-    String h2DbJdbcUrl = "jdbc:h2:tcp://localhost:8092/mem:camunda;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
-    try {
-      Connection connection = DriverManager.getConnection(h2DbJdbcUrl,"sa",null);
-      connection.close();      
-      h2DbAlreadyRunning = true;
-    } catch (Exception ex) {
-      h2DbAlreadyRunning = false;
-    }    
-    
-    StandaloneInMemProcessEngineConfiguration config = new StandaloneInMemProcessEngineConfiguration();
-    config.setHistoryLevel(HistoryLevel.HISTORY_LEVEL_FULL);
-
-    // if the DB was already started (by another engine in another Microservice) 
-    // connect to this DB instead of starting an own one
-    if (h2DbAlreadyRunning) {
-      config.setJdbcUrl(h2DbJdbcUrl);
-    } else {
-      // use in memory DB, but expose as server
-      config.setJdbcUrl("jdbc:h2:mem:camunda");
-      try {
-        h2Server = Server.createTcpServer(new String[] { "-tcpPort", "8092", "-tcpAllowOthers" }).start();
-        // now you can connect to "jdbc:h2:tcp://localhost:8092/mem:camunda"
-      } catch (Exception ex) {
-        throw new RuntimeException("Could not start H2 database server: " + ex.getMessage(), ex);
-      }
-    }
-
-    engine = config.buildProcessEngine();
-    
-    // create Demo users and add enterprise license (if existent in file ~/.camunda/build.properties)
-    LicenseHelper.setLicense(engine);
-    UserGenerator.createDefaultUsers(engine);
-
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        try {
-          engine.close();
-          h2Server.stop();
-        } catch (Exception e) {
-          throw new RuntimeException("Could not disconnect: " + e.getMessage(), e);
-        }
-      }
-    });    
-  }
-
   
   /** just for visualization, needed on blog post / slide **/
   private void createComplexFlow() {
