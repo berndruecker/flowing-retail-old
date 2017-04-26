@@ -15,10 +15,11 @@ public class CamundaEngineHelper {
   private static String h2DbJdbcUrl = "jdbc:h2:tcp://localhost:8092/mem:camunda;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
 
   public static ProcessEngine startUpEngineAndInit() {
+    Server h2Server = null;
+
     StandaloneInMemProcessEngineConfiguration config = new StandaloneInMemProcessEngineConfiguration();
     config.setHistoryLevel(HistoryLevel.HISTORY_LEVEL_FULL);
 
-    Server h2Server = null;
     // if the DB was already started (by another engine in another Microservice)
     // connect to this DB instead of starting an own one
     if (isH2DbAlreadyRunning()) {
@@ -29,7 +30,6 @@ public class CamundaEngineHelper {
       config.setJdbcUrl("jdbc:h2:mem:camunda");
       h2Server = startH2Server();
     }
-
     ProcessEngine engine = config.buildProcessEngine();
 
     // create Demo users and add enterprise license (if existent in file
