@@ -6,7 +6,6 @@ import io.flowing.retail.adapter.EventHandler;
 import io.flowing.retail.adapter.FlowingStartup;
 import io.flowing.retail.order.flow.camunda.CamundaBpmnOrderEventHandler;
 import io.flowing.retail.order.flow.camunda.CamundaModelApiOrderEventHandler;
-import io.flowing.retail.order.flow.camunda.dsl.CamundaCustomDslOrderEventHandler;
 import io.flowing.retail.order.flow.entitystate.EntityStateOrderEventHandler;
 
 public class OrderApplication {
@@ -15,8 +14,6 @@ public class OrderApplication {
     EventHandler eventHandler = null;
     if (Arrays.asList(args).contains("entity")) {
       eventHandler = new EntityStateOrderEventHandler();
-    } else if (Arrays.asList(args).contains("camunda-dsl")) {
-      eventHandler = new CamundaCustomDslOrderEventHandler();
     } else if (Arrays.asList(args).contains("camunda-bpmn")) {
       eventHandler = new CamundaBpmnOrderEventHandler();
     } else { // Arrays.asList(args).contains("camunda") = default
