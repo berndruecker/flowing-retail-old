@@ -84,6 +84,7 @@ starter/io.flowing.retail.command.SimpleStarter
 ```
 
 * Now you can place an order via [http://localhost:8085](http://localhost:8085)
+* You can inspect all events going on via [http://localhost:8086](http://localhost:8086)
 
 # TODO ZONE
 
