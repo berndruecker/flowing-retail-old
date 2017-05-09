@@ -22,6 +22,8 @@
 		<module>order</module>
 		<module>payment</module>
 		<module>shipping</module>
+
+		<module>monitor</module>
 	</modules>
 
 	<build>
