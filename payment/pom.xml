@@ -39,4 +39,12 @@
 		</dependency>
 		
 	</dependencies>
+
+	<repositories>
+		<repository>
+		  <id>camunda-bpm-nexus</id>
+		  <name>Camunda BPM Maven Repository</name>
+		  <url>https://app.camunda.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>	
 </project>

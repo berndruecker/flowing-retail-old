@@ -40,6 +40,13 @@
 		</dependency>
 	</dependencies>
 
+	<repositories>
+		<repository>
+		  <id>camunda-bpm-nexus</id>
+		  <name>Camunda BPM Maven Repository</name>
+		  <url>https://app.camunda.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
 	<!-- <build> <plugins> <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>appassembler-maven-plugin</artifactId> 
 		<configuration> <programs> <program> <mainClass>io.flowing.retail.commands.OrderApplication</mainClass> 
 		<name>flowing retail example - order service</name> </program> </programs> 
