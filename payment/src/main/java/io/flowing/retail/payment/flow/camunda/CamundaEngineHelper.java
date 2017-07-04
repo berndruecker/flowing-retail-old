@@ -1,4 +1,4 @@
-package io.flowing.retail.order.flow.camunda;
+package io.flowing.retail.payment.flow.camunda;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
