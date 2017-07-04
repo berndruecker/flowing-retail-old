@@ -115,7 +115,7 @@ kafka-topics.sh --list --zookeeper localhost:2181
 You can inspect what's going on using Cockpit:
 
 * Download Camunda Distribution of your choice
-* Configure Datasource to connect to: jdbc:h2:tcp://localhost:8092/mem:camunda
+* Configure Datasource to connect to (e.g. in Tomcat distribution this is configured in server/apache-tomcat-8.0.24/conf/server.xml): jdbc:h2:tcp://localhost:8092/mem:camunda
 * Best: Do not start job executor
 * Run it and you can use cockpit normally
 
