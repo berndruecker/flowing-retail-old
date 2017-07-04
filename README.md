@@ -115,7 +115,26 @@ kafka-topics.sh --list --zookeeper localhost:2181
 You can inspect what's going on using Cockpit:
 
 * Download Camunda Distribution of your choice
-* Configure Datasource to connect to (e.g. in Tomcat distribution this is configured in server/apache-tomcat-8.0.24/conf/server.xml): jdbc:h2:tcp://localhost:8092/mem:camunda
+* Configure Datasource to connect to: jdbc:h2:tcp://localhost:8092/mem:camunda
+    * In Tomcat distribution this is configured in server/apache-tomcat-8.0.24/conf/server.xml
+    * In Wildfly distribution this is configred in server/wildfly-10.1.0.Final/standalone/configuration/standalone.xml
 * Best: Do not start job executor
 * Run it and you can use cockpit normally
 
+If you want to restart microservices and keep cockpit running, you have to make sure your JDBC connection pool destroys stale connections. In Wildfly you can add a valdidation to your datasource, so the config will look like this:
+
+```
+<datasource jndi-name="java:jboss/datasources/ProcessEngine" pool-name="ProcessEngine" ...>
+    <connection-url>jdbc:h2:tcp://localhost:8092/mem:camunda</connection-url>
+    <driver>h2</driver>
+    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+    <security>
+        <user-name>sa</user-name>
+        <password>sa</password>
+    </security>
+    <validation>
+        <check-valid-connection-sql>select 1</check-valid-connection-sql>
+        <validate-on-match>false</validate-on-match>
+    </validation>
+</datasource>
+```
